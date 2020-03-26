@@ -1,10 +1,10 @@
 # Generic Moderation Panel
 
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://platoadmin.goibibo.com)
-[![forthebadge](https://forthebadge.com/images/badges/gluten-free.svg)](https://platoadmin.goibibo.com)
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://platoadmin.goibibo.com)
-[![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://platoadmin.goibibo.com)
-[![forthebadge](https://forthebadge.com/images/badges/not-an-issue.svg)](https://platoadmin.goibibo.com)
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)]()
+[![forthebadge](https://forthebadge.com/images/badges/gluten-free.svg)]()
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)]()
+[![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)]()
+[![forthebadge](https://forthebadge.com/images/badges/not-an-issue.svg)]()
 
 #### Tech Stack Needed
 
