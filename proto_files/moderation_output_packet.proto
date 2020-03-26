@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+message DataNode {
+    int32 entity_id = 1;
+    string unique_id = 2;
+    int32 object_id = 3;
+    string current_status = 4;
+    string moderation_status = 5;
+    string moderated_by = 6;
+    int32 moderated_by_id = 7;
+    float moderated_time = 8;
+    repeated Fields fields = 9;
+}
+
+message Fields {
+    int32 id = 1;
+    string field_name = 2;
+    string new_value = 3;
+    string old_value = 4;
+    int32 parent_id = 5;
+    string group_field_name = 6;
+    repeated string list_value = 7;
+    repeated MetaInfo meta_info = 8;
+    string edited_data = 9;
+    string status = 10;
+}
+
+message MetaInfo {
+    string key = 1;
+    string value = 2;
+}
