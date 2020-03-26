@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
 
-    'moderation',
-
-    'bootstrap4'
+    'moderation'
 ]
 
 MIDDLEWARE = [
