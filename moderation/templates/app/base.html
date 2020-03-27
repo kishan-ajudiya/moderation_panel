@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block head %}
+    {% include "app/head.html" %}
+    {% endblock head %}
+</head>
+<body>
+{% block nav %}
+{% include "app/navigation.html" %}
+{% endblock nav %}
+{% block main %}
+
+{% endblock main %}
+{% block scripts %}
+{% include "app/scripts.html" %}
+{% endblock scripts %}
+</body>
+</html>

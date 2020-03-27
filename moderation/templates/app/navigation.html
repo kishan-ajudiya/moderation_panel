@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" data-ol-has-click-handler="" href="#">Moderation Panel</a>
+    <button aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbarColor03" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            {% for nav_tabs in nav_list %}
+            <li class="nav-item {% if nav_tabs.active %} active {% endif %}">
+                <a class="nav-link" data-ol-has-click-handler="" href="/moderation/misc?tab={{ nav_tabs.name }}">{{ nav_tabs.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
