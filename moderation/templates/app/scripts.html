@@ -1,25 +1,58 @@
-<script crossorigin="anonymous"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
-</script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-<script>
+<script src="/static/moderation/js/jquery-3.4.1.js"></script>
+<script src="/static/moderation/js/npm_popper.js@1.16.0_dist_umd_popper.js"></script>
+<script src="/static/moderation/js/bootstrap_4.4.1_js_bootstrap.js"></script>
+<script src="/static/moderation/js/1.10.20_js_jquery.dataTables.js"></script>
+<script src="/static/moderation/js/1.10.20_js_dataTables.bootstrap4.js"></script>
+<script src="/static/moderation/js/serializeToJSON.js"></script>
+<script src="/static/moderation/js/bootstrap-toggle_2.2.2_js_bootstrap-toggle.js"></script>
 
-$(document).ready(function() {
-    $('#example').DataTable({
-    ordering: true,
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#example').DataTable({
+                ordering: true,
+            }
+        );
+    });
+
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
-    );
-} );
 
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 
+    $("#submit-form").click(function () {
+        if (document.forms['detail-form'].reportValidity()) {
+            var form = $(this).closest("form");
+            var obj = $("#detail-form").serializeToJSON({});
+            document.forms['detail-form'].reportValidity();
+            var jsonString = JSON.stringify(obj);
+            $.ajax({
+                url: form.attr("action"),
+                method: 'POST',
+                data: jsonString,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.is_taken) {
+                        alert(data.error_message);
+                    }
+                }
+            });
+        } else {
+            alert("Please Correct Error Below.");
+            document.forms['detail-form'].reportValidity();
+        }
+
+    });
 
 
 </script>

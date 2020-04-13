@@ -1,4 +1,5 @@
 {% extends "app/base.html" %}
+{% load general_tags %}
 {% block main %}
 {{ block.super }}
 <div class="container col-lg-11">
@@ -6,20 +7,19 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="header">
-                    <h4 id="navbars">Events</h4>
+                    <h4 id="navbars">{{ active_tab.entity_name }}</h4>
                 </div>
                 <div class="bs-component">
                     <table class="table table-bordered" id="example">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">id</th>
-                            <th scope="col">Event name</th>
-                            <th scope="col">Event Status</th>
-                            <th scope="col">Event Category</th>
-                            <th scope="col">Event City</th>
-                            <th scope="col">Event Country</th>
-                            <th scope="col">Event Source</th>
-                            <th scope="col">Details</th>
+                            {% for column in active_tab.list_view %}
+                            <th class="text-center" scope="col">
+                                {{ active_tab.attribute_config|hash:column|hash:"label"}}
+                            </th>
+                            {% endfor %}
+                            <th class="text-center" scope="col">Details</th>
+                            <th class="text-center" scope="col">User Assigned</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -29,287 +29,14 @@
                             <td>Pending</td>
                             <td>Outdoor</td>
                             <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
+                            <td class="text-center">
+                                <button class="btn btn-outline-info">Go to Details</button>
+                            </td>
+                            <td class="text-center">
+                                <input type="checkbox" checked data-toggle="toggle" data-onstyle="outline-info"
+                                       data-offstyle="outline-light" data-on="Assign" data-off="Assigned">
                             </td>
                         </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Sunburn Fest 2020</td>
-                            <td>Pending</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">2</th>
-                            <td>Event 2</td>
-                            <td>Re verification</td>
-                            <td>Outdoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">1</th>
-                            <td>Other events</td>
-                            <td>Pending</td>
-                            <td>indoor</td>
-                            <td>Bangalore</td>
-                            <td>India</td>
-                            <td>Hotel</td>
-                            <td>
-                                <button class="btn btn-primary">Go to Details</button>
-                            </td>
                         </tr>
                         </tbody>
                     </table>

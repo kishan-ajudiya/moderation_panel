@@ -14,7 +14,7 @@ message Fields {
     string new_value = 3;
     string old_value = 4;
     int32 parent_id = 5;
-    string group_field_name = 6;
+    string parent_field_name = 6;
     repeated string list_value = 7;
     repeated MetaInfo meta_info = 8;
 }

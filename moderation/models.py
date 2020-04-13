@@ -32,6 +32,7 @@ class AttributeConfig(EmbeddedDocument):
     data_type = StringField()
     reject_reason = ListField(StringField())
     object_type = StringField()
+    multiple = BooleanField(default=False)
 
 
 class ModerationConfig(MongoDocument):
@@ -43,23 +44,40 @@ class ModerationConfig(MongoDocument):
     response_config = DictField()
     display_links = ListField(StringField(max_length=50))
     filter_attributes = ListField(StringField(max_length=50))
-    reject_reason = ListField(StringField())
+    reject_reason = DictField()
     required_attributes = ListField(StringField())
     view = EmbeddedDocumentField(ViewConfig)
     attribute_config = EmbeddedDocumentListField(AttributeConfig)
+    is_list_moderable = BooleanField(default=False)
+    is_active = BooleanField(default=True)
+
+    def save(
+        self,
+        force_insert=False,
+        validate=True,
+        clean=True,
+        write_concern=None,
+        cascade=None,
+        cascade_kwargs=None,
+        _refs=None,
+        save_condition=None,
+        signal_kwargs=None,
+        **kwargs
+    ):
+        super(MongoDocument, self).save(force_insert=True)
 
 
 class DataPacket(EmbeddedDocument):
-    input_data = ListField(DictField())
-    moderated_data = ListField(DictField())
+    input_data = DictField()
+    moderated_data = DictField()
 
 
 class DataStore(MongoDocument):
     entity = LazyReferenceField(ModerationConfig, reverse_delete_rule=1)
     user_assigned = IntField(null=True)
     unique_id = UUIDField(unique=True)
-    entity_object_id = IntField()
-    current_status = StringField()
+    entity_object_id = IntField(null=True)
+    current_status = StringField(null=True)
     entity_data = EmbeddedDocumentField(DataPacket)
     moderation_status = BooleanField(default=False)
     moderation_time = DateTimeField(null=True)

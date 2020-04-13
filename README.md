@@ -29,7 +29,7 @@
 * Install all the requirements:  
 
     ``
-    pip install -r requirement.txt
+    pip install -r requirements.txt
     ``
 
 * Collect static files in static folder

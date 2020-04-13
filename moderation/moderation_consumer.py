@@ -40,10 +40,10 @@ def save_data_packet(data):
         obj_data = {
             "entity": data.get('entityId', ''),
             "unique_id": data.get('uniqueId', ''),
-            "entity_object_id": data.get('objectId', ''),
+            "entity_object_id": data.get('objectId'),
             "current_status": data.get('currentStatus', ''),
             "entity_data": {
-                "input_data": data.get('fields', '')
+                "input_data": parse_dict(data.get('fields', []))
             }
         }
         data_obj = DataStore.from_json(json.dumps(obj_data))

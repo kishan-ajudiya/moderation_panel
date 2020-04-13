@@ -1,0 +1,32 @@
+{% load general_tags %}
+<div class="form-group {% if not full_width %} col-md-3 {% endif %}">
+    <label for="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}"
+           class="col-sm-6 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <div class="col-sm-10">
+        <input type="text"
+               class="{% if field_description|hash:attribute|hash:'is_editable' %}form-control {% else %} form-control-plaintext {% endif %}"
+               id="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}"
+               name="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}.value"
+               value="{{  field_description|hash:attribute|hash:'label'  }}"
+               {% if field_description|hash:attribute|hash:'is_editable' %} readonly {% endif %}
+        >
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+            else.</small>
+    </div>
+</div>
+{% if field_description|hash:attribute|hash:'is_moderable' %}
+<div class="form-group {% if not full_width %} col-md-2  {% endif %}">
+    <label for="moderable_{{attribute}}">{{ field_description|hash:attribute|hash:'label' }} Accept/Reject</label>
+    <select class="custom-select" id="moderable_{{attribute}}" name="{{attribute}}.moderable">
+        <option selected="">None</option>
+        <option value="1">Accept</option>
+        <option value="2">Reject</option>
+    </select>
+</div>
+{% endif %}
+
+{% if field_description|hash:attribute|hash:'child_attr' is not None  %}
+    {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=1 id=2 %}
+        {% include "app/common_render.html" %}
+    {% endwith %}
+{% endif %}

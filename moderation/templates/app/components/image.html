@@ -1,0 +1,29 @@
+{% load general_tags %}
+{% for i in '0123'|make_list %}
+<div class="form-group col-md-3">
+    <div class="card" style="width: 18rem;">
+        <img src="https://www.w3schools.com/bootstrap/paris.jpg" class="card-img-top" alt="" name="{{attribute}}.{{i}}.url">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up
+                the bulk
+                of the card's content.</p>
+            {% if field_description|hash:attribute|hash:'is_moderable' %}
+            <label for="moderable_{{attribute}}">Accept/Reject</label>
+            <div class="form-group">
+                <select class="custom-select" id="moderable_{{attribute}}" name="{{attribute}}.{{i}}.value">
+                    <option selected="">None</option>
+                    <option value="1">Accept</option>
+                    <option value="2">Reject</option>
+                </select>
+            </div>
+            {% endif %}
+            {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
+            {% with attribute_list=field_description|hash:attribute|hash:'child_attr' full_width=True %}
+            {% include "app/common_render.html" %}
+            {% endwith %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -6,6 +6,7 @@
     {% endblock head %}
 </head>
 <body>
+{% csrf_token %}
 {% block nav %}
 {% include "app/navigation.html" %}
 {% endblock nav %}

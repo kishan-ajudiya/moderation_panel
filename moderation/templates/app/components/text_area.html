@@ -1,0 +1,15 @@
+{% load general_tags %}
+<div class="form-group col-md-6">
+    <label for="{{attribute}}">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <textarea class="form-control" id="{{attribute}}" rows="3" spellcheck="true" name="{{attribute}}.value"></textarea>
+</div>
+{% if field_description|hash:attribute|hash:'is_moderable' %}
+<div class="form-group col-md-2">
+    <label for="moderable_{{attribute}}">{{ field_description|hash:attribute|hash:'label' }} Accept/Reject</label>
+    <select class="custom-select" id="moderable_{{attribute}}" name="{{attribute}}.moderable">
+        <option selected="">None</option>
+        <option value="1">Accept</option>
+        <option value="2">Reject</option>
+    </select>
+</div>
+{% endif %}

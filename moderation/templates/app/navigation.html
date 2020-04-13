@@ -7,9 +7,9 @@
 
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav mr-auto">
-            {% for nav_tabs in nav_list %}
+            {% for nav_tabs in nav_bar %}
             <li class="nav-item {% if nav_tabs.active %} active {% endif %}">
-                <a class="nav-link" data-ol-has-click-handler="" href="/moderation/misc?tab={{ nav_tabs.name }}">{{ nav_tabs.name }}</a>
+                <a class="nav-link" data-ol-has-click-handler="" href="/moderation/list?tab_id={{ nav_tabs.entity_id }}">{{ nav_tabs.entity_name }}</a>
             </li>
             {% endfor %}
         </ul>
