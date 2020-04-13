@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'rwr&$$5dqe)gdab@f4k(^f_000emf&0b%94i4b3ef&vctty5v4'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -74,44 +72,47 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'moderation_panel.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'goibibo_inventory',                      # Or path to database file if using sqlite3.
-        'USER': 'gouser',                      # Not used with sqlite3.
-        'PASSWORD': 'gi@G0u8eR',                  # Not used with sqlite3.
-        'HOST': 'pp.mysql.goibibo.dev',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql',
+        # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '',  # Or path to database file if using sqlite3.
+        'USER': '',  # Not used with sqlite3.
+        'PASSWORD': '',  # Not used with sqlite3.
+        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
         'OPTIONS': {"autocommit": True}
     }
 }
 
+LOGIN_URL = '/admin/login'
+
 MONGODB_DATABASES = {
     "default": {
-        "name": 'goibibo_inventory',
+        "name": 'goibibo_inventory',  # TODO Change DB name
         "host": 'localhost',
         "password": '',
         "username": '',
-        "tz_aware": True, # if you using timezones in django (USE_TZ = True)
+        "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
+
     },
 }
 
 from mongoengine import connection
+
 for alias, conn_settings in MONGODB_DATABASES.items():
     connection.register_connection(alias, **conn_settings)
-
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'travelFormatter': {
+        'LogFormatter': {
             'format': '%(asctime)s    %(name)s    %(levelname)s    %(message)s    '
-                      '%(filename)s    %(funcName)s    %(lineno)s'
+                      '%(filename)s    %(funcName)s    %(module)s'
         }
     },
     'filters': {
@@ -123,7 +124,7 @@ LOGGING = {
         'moderationLoggerHandler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
-            'formatter': 'travelFormatter',
+            'formatter': 'LogFormatter',
             'filename': 'logs/moderation_panel.log'
         },
         'file': {
@@ -163,7 +164,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -177,7 +177,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -187,14 +186,27 @@ STATIC_ROOT = 'static'
 MODERATION_PANEL_KAFKA_SERVER_CONF = {
     'servers': {
         'moderation_panel_input': {
-            'HOST': ['kafkapp01.goibibo.dev:9092'],
+            'HOST': [''],  # Add Host Here
             'TOPIC': 'ingo_moderation_panel_input',
             'GROUP': 'ingo_moderation_panel'
         },
         'moderation_panel_output': {
-            'HOST': ['kafkapp01.goibibo.dev:9092'],
+            'HOST': [''],  # Add Host Here
             'TOPIC': 'ingo_moderation_panel_output',
             'GROUP': 'ingo_moderation_panel'
+        }
+    }
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
         }
     }
 }
