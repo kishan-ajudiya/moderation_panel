@@ -39,10 +39,10 @@ def consume_moderation_input_packet(proto_data):
 def save_data_packet(data):
     try:
         obj_data = {
-            "entity": data.get('entityId', ''),
-            "unique_id": data.get('uniqueId', ''),
-            "entity_object_id": data.get('objectId'),
-            "current_status": data.get('currentStatus', ''),
+            "entity": data.get('entity_id', ''),
+            "unique_id": data.get('unique_id', ''),
+            "entity_object_id": data.get('object_id'),
+            "current_status": data.get('current_status', ''),
             "entity_data": {
                 "input_data": parse_dict(data.get('fields', []))
             }

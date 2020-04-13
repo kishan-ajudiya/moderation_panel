@@ -11,6 +11,12 @@ if MODERATION_PANEL_ENV == "prodpp":
 elif MODERATION_PANEL_ENV == "dev":
     from .dev import *
 
+
+from mongoengine import connection
+
+for alias, conn_settings in MONGODB_DATABASES.items():
+    connection.register_connection(alias, **conn_settings)
+
 # import redis
 # from rediscluster import RedisCluster
 # from rediscluster.connection import ClusterConnectionPool

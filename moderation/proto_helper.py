@@ -8,7 +8,7 @@ logger = logging.getLogger('moderationLogger')
 def convert_proto_message_to_dict(proto_message, obj):
     try:
         obj.ParseFromString(proto_message)
-        data_dict = MessageToDict(obj)
+        data_dict = MessageToDict(obj, preserving_proto_field_name=True)
         return data_dict
     except Exception as e:
         message = "%s\t%s" % ("Error in converting proto to dict", repr(e))

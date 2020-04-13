@@ -101,10 +101,6 @@ MONGODB_DATABASES = {
     },
 }
 
-from mongoengine import connection
-
-for alias, conn_settings in MONGODB_DATABASES.items():
-    connection.register_connection(alias, **conn_settings)
 
 LOGGING = {
     'version': 1,
