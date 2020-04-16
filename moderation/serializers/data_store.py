@@ -9,7 +9,7 @@ class DataPacketSerializer(EmbeddedDocumentSerializer):
 
 
 class DataStoreSerializer(DocumentSerializer):
-    entity_data = DataPacketSerializer(many=True)
+    entity_data = DataPacketSerializer()
 
     class Meta:
         model = DataStore

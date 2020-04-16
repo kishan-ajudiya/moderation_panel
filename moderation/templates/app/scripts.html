@@ -8,8 +8,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#example').DataTable({
+        $('#data-list-table').DataTable({
                 ordering: true,
+                paging: false,
+                info:false
             }
         );
     });
@@ -20,7 +22,6 @@
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
-
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -28,6 +29,36 @@
             }
         }
     });
+
+    var user_assign = function (obj) {
+        var unique_id = $(obj).data("unique_id");
+        var user_assigned = 0;
+        if ($(obj).prop("checked") === true) {
+            user_assigned = 0;
+        } else if ($(obj).prop("checked") === false) {
+            user_assigned = 1;
+        }
+        var data = {
+            "unique_id": unique_id,
+            "user_assignment": user_assigned
+        }
+        var jsonString = JSON.stringify(data);
+        $.ajax({
+            url: "/moderation/user-assign/",
+            method: 'POST',
+            data: jsonString,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $(obj).attr("disabled", true);
+                if (data.is_taken) {
+                    alert(data.error_message);
+                }
+            }
+        });
+
+    }
+
 
     $("#submit-form").click(function () {
         if (document.forms['detail-form'].reportValidity()) {
@@ -53,6 +84,5 @@
         }
 
     });
-
 
 </script>

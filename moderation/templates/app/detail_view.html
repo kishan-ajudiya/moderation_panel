@@ -8,7 +8,7 @@
         {% for raw in detail_view %}
         <div class="card">
             <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
+                <h5 class="mb-0 align-content-end">
                     <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
                             data-target="#collapseOne"
                             data-toggle="collapse" type="button">
@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="form-row">
                         {% with attribute_list=raw.1.fields full_width=False parent_id=False id=False %}
-                        {% include "app/common_render.html" %}
+                            {% include "app/common_render.html" %}
                         {% endwith %}
                     </div>
                 </div>

@@ -1,8 +1,11 @@
 import json
 
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.views import View
 from mongoengine import NotUniqueError
 from rest_framework import status
-from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication, SessionAuthentication
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -11,13 +14,14 @@ from rest_framework.views import APIView
 
 from . import logger
 from .models import ModerationConfig, DataStore
-from .utils.resource import get_all_active_entity, get_entity_table_data
+from .utils.resource import get_all_active_entity, get_entity_table_data, get_detail_entity_view_data
 
 
-class ListView(APIView):
-    permission_classes = (IsAuthenticated,)
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = "app/list_view.html"
+class ListView(View):
+    #permission_classes = (IsAuthenticated,)
+    #renderer_classes = [TemplateHTMLRenderer]
+    #template_name = "app/list_view.html"
+    #paginate_by = 2
 
     def get(self, request):
         tab = request.GET.get('tab_id', '')
@@ -27,8 +31,13 @@ class ListView(APIView):
         context = {
             "nav_bar": entity_data.get('entity_data', []),
             "active_tab": entity_data.get('active_tab', {}),
+            "table_data": table_data
         }
-        return Response(context)
+        paginator = Paginator(table_data, 5)
+        page_number = request.GET.get('page', 1)
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        return render(request, "app/list_view.html", context)
 
 
 class DetailView(APIView):
@@ -37,32 +46,9 @@ class DetailView(APIView):
     template_name = "app/detail_view.html"
 
     def get(self, request):
-        context = '{"detail_view":[["User Details",{"help_text":"","fields":["user","modifiedon","createdon"]}],' \
-                  '["Event Details",{"help_text":"","fields":["event_name","event_address"]}],["Event Duration",' \
-                  '{"help_text":"","fields":["start_date","end_date"]}],["Event Images",{"help_text":"",' \
-                  '"fields":["images"]}],["Event Location",{"help_text":"","fields":["latitude","longitude"]}]],' \
-                  '"field_description":{"user":{"label":"Created by","type":"text","is_editable":false,' \
-                  '"is_moderable":true,"child_attr":["abc","def"]},"abc":{"label":"ABC","type":"text",' \
-                  '"is_editable":false,"is_moderable":true,"child_attr":["ghi"]},"ghi":{"label":"GHI","type":"text",' \
-                  '"is_editable":false,"is_moderable":true},"def":{"label":"DEF","type":"text","is_editable":false,' \
-                  '"is_moderable":true},"modifiedon":{"label":"Modified On","type":"text","is_editable":false,' \
-                  '"is_moderable":true},"createdon":{"label":"Created On","type":"text","is_editable":false,' \
-                  '"is_moderable":true},"event_name":{"label":"Event Name","type":"text","is_editable":true,' \
-                  '"is_moderable":true},"event_address":{"label":"Event Address","type":"text","is_editable":true,' \
-                  '"is_moderable":true},"start_date":{"label":"Stare Date","type":"date","is_editable":false,' \
-                  '"is_moderable":true},"end_date":{"label":"End Date","type":"date","is_editable":false,' \
-                  '"is_moderable":true},"images":{"label":"Images","type":"image","is_editable":false,' \
-                  '"is_multiplae":true,"is_moderable":true,"child_attr":["caption","tags"]},"caption":{' \
-                  '"label":"Caption","type":"text","is_editable":false,"is_moderable":true},"tags":{"label":"Tags",' \
-                  '"type":"multiselect","is_editable":false,"is_moderable":true},"latitude":{"label":"Latitude",' \
-                  '"type":"multiselect","is_editable":true,"is_moderable":true},"longitude":{"label":"Longitude",' \
-                  '"type":"text","is_editable":true,"is_moderable":true}}} '
-        context = json.loads(context)
-        return Response(context)
-
-    def post(self, request):
-        context = json.loads(context)
-        return Response(context)
+        unique_id = request.GET.get('unique_id', '')
+        detail_view_data = get_detail_entity_view_data(unique_id)
+        return Response(detail_view_data)
 
 
 class FormSubmit(APIView):
@@ -78,10 +64,12 @@ class FormSubmit(APIView):
 
 
 class UserAssign(APIView):
-    authentication_classes = (TokenAuthentication, BasicAuthentication,)
+    authentication_classes = (TokenAuthentication, BasicAuthentication, SessionAuthentication, )
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        import pdb
+        pdb.set_trace()
         response = {
             "data": {},
             "message": "",

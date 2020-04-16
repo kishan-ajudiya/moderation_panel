@@ -4,17 +4,20 @@
            class="col-sm-6 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
     <div class="col-sm-10">
         <input type="text"
-               class="{% if field_description|hash:attribute|hash:'is_editable' %}form-control {% else %} form-control-plaintext {% endif %}"
+               class="form-control"
+               placeholder="None"
                id="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}"
                name="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}.value"
-               value="{{  field_description|hash:attribute|hash:'label'  }}"
-               {% if field_description|hash:attribute|hash:'is_editable' %} readonly {% endif %}
+               value="{% if field_value|hash:attribute and field_value|hash:attribute|hash:'new_value' %}{{ field_value|hash:attribute|hash:'new_value' }}{% endif %}"
+               {% if not field_description|hash:attribute|hash:'editable' %} readonly {% endif %}"
         >
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-            else.</small>
+        {% if field_value|hash:attribute and field_value|hash:attribute|hash:'meta_data' %}
+            <small id="emailHelp" class="form-text text-muted">help text
+                else.</small>
+        {% endif %}
     </div>
 </div>
-{% if field_description|hash:attribute|hash:'is_moderable' %}
+{% if field_description|hash:attribute|hash:'moderable' %}
 <div class="form-group {% if not full_width %} col-md-2  {% endif %}">
     <label for="moderable_{{attribute}}">{{ field_description|hash:attribute|hash:'label' }} Accept/Reject</label>
     <select class="custom-select" id="moderable_{{attribute}}" name="{{attribute}}.moderable">

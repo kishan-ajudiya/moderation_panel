@@ -1,0 +1,25 @@
+version: "3"
+services:
+  moderation_panel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        env: pp
+#    extra_hosts:
+#       - "parent-host:${MY_HOST}"
+    volumes:
+      - ./:/usr/local/goibibo/source/moderation_panel
+      - /tmp/moderation_panel:/logs
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    environment:
+      - CURR_ENV=pp
+      - APP_TYPE=web
+    command: >
+      ash -c "echo yes | python manage.py collectstatic && touch /logs/moderation_panel.log && chmod 0777 -R /logs/moderation_panel* && nginx && uwsgi --socket :8002 --wsgi-file moderation_panel/wsgi.py"
+
+
+
+

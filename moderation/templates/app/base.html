@@ -8,13 +8,13 @@
 <body>
 {% csrf_token %}
 {% block nav %}
-{% include "app/navigation.html" %}
+    {% include "app/navigation.html" %}
 {% endblock nav %}
 {% block main %}
 
 {% endblock main %}
 {% block scripts %}
-{% include "app/scripts.html" %}
+    {% include "app/scripts.html" %}
 {% endblock scripts %}
 </body>
 </html>

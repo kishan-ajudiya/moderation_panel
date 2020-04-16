@@ -33,6 +33,7 @@ class AttributeConfig(EmbeddedDocument):
     reject_reason = ListField(StringField())
     object_type = StringField()
     multiple = BooleanField(default=False)
+    child_attr = ListField(StringField())
 
 
 class ModerationConfig(MongoDocument):
@@ -74,7 +75,7 @@ class DataPacket(EmbeddedDocument):
 
 class DataStore(MongoDocument):
     entity = LazyReferenceField(ModerationConfig, reverse_delete_rule=1)
-    user_assigned = IntField(null=True)
+    user_assigned = StringField(null=True)
     unique_id = UUIDField(unique=True)
     entity_object_id = IntField(null=True)
     current_status = StringField(null=True)
