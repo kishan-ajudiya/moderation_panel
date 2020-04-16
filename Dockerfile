@@ -1,5 +1,7 @@
 FROM python:3-alpine
 
+MAINTAINER Kishan Ajudiya <kishan.ajudiya@go-mmt.com>
+
 ENV PYTHONUNBUFFERED 1
 
 RUN set -e; \
@@ -28,7 +30,7 @@ COPY . /moderation_panel/
 
 COPY docker_config/nginx/moderation_panel.conf /etc/nginx/conf.d/moderation_panel.conf
 
-RUN mkdir /moderation_panel/logs && mkdir /moderation_panel/static && /run/nginx/ &&  mkdir /run/openrc/ && touch /run/nginx/nginx.pid && touch /run/openrc/softlevel
+RUN mkdir /moderation_panel/logs && mkdir /moderation_panel/static && mkdir /run/nginx/ &&  mkdir /run/openrc/ && touch /run/nginx/nginx.pid && touch /run/openrc/softlevel
 
 EXPOSE 80
 EXPOSE 3308

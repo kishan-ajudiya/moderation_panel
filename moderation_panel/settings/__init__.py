@@ -1,12 +1,15 @@
 from .base import *
 
-MODERATION_PANEL_ENV = os.getenv("MODERATION_PANEL_ENV", "dev")
+MODERATION_PANEL_ENV = os.getenv("MODERATION_PANEL_ENV", "pp")
 
 if MODERATION_PANEL_ENV == "prod":
     from .prod import *
 
-if MODERATION_PANEL_ENV == "prodpp":
+elif MODERATION_PANEL_ENV == "prodpp":
     from .prodpp import *
+
+elif MODERATION_PANEL_ENV == "pp":
+    from .pp import *
 
 elif MODERATION_PANEL_ENV == "dev":
     from .dev import *
