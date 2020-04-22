@@ -1,14 +1,22 @@
 {% load general_tags %}
     {% for attribute in attribute_list %}
-        {% if field_description|hash:attribute|hash:'view_type' == 'text' %}
-            {% include "app/components/text_field.html" %}
-        {% elif field_description|hash:attribute|hash:'view_type' == 'text_area' %}
-            {% include "app/components/text_area.html" %}
-        {% elif field_description|hash:attribute|hash:'view_type' == 'date' %}
-            {% include "app/components/datetime.html" %}
-        {% elif field_description|hash:attribute|hash:'view_type' == 'image' %}
-            {% include "app/components/image.html" %}
-        {% elif field_description|hash:attribute|hash:'view_type' == 'multiselect' %}
-            {% include "app/components/multi_select.html" %}
+        {% if attribute == 'action' %}
+            {% include "app/components/moderation_select.html" %}
+        {% elif  attribute == 'reject_reason' %}
+            {% include "app/components/reject_reason_select.html" %}
+        {% else %}
+            {% if field_description|hash:attribute|hash:'view_type' == 'text' %}
+                {% include "app/components/text_field.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'text_area' %}
+                {% include "app/components/text_area.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'date' %}
+                {% include "app/components/datetime.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'image' %}
+                {% include "app/components/image.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'multi_select' %}
+                {% include "app/components/multi_select.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'select' %}
+                {% include "app/components/select_box.html" %}
+            {% endif %}
         {% endif %}
 {% endfor %}

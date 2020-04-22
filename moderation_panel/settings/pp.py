@@ -13,9 +13,9 @@ DATABASES = {
 MONGODB_DATABASES = {
     "default": {
         "name": 'moderation_panel',  # TODO Change DB name
-        "host": 'ds213645.mlab.com:13645',
-        "password": 'ModPP#3',
-        "username": 'moderation_user',
+        "host": 'gocashmongo.pp.goibibo.dev:27017',
+        "password": '',
+        "username": '',
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
         "retryWrites": False
     }

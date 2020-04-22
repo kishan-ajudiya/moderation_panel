@@ -1,0 +1,10 @@
+{% load general_tags %}
+<div class="form-group {% if not full_width %} col-md-2 {% endif %}">
+    <label for="{{attribute}}">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <select class="custom-select" id="{{attribute}}" name="{{attribute}}" multiple>
+        <option value="">Select Reject Reason</option>
+        {% for reason in reject_reason %}
+            <option value={{reason}}>{{reason}}</option>
+        {% endfor %}
+    </select>
+</div>

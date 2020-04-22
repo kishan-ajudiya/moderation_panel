@@ -8,10 +8,18 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#data-list-table').DataTable({
+        $('#data-list-table-pending').DataTable({
+                dom: '<"top"f>rt<"bottom"><"clear">',
                 ordering: true,
                 paging: false,
-                info:false
+                info: false
+            }
+        );
+        $('#data-list-table-moderated').DataTable({
+                dom: '<"top"f>rt<"bottom"><"clear">',
+                ordering: true,
+                paging: false,
+                info: false
             }
         );
     });
@@ -22,6 +30,7 @@
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
+
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -30,7 +39,7 @@
         }
     });
 
-    var user_assign = function (obj) {
+    function user_assign(obj) {
         var unique_id = $(obj).data("unique_id");
         var user_assigned = 0;
         if ($(obj).prop("checked") === true) {
@@ -50,11 +59,16 @@
             dataType: 'json',
             contentType: 'application/json',
             success: function (data) {
-                $(obj).attr("disabled", true);
-                if (data.is_taken) {
-                    alert(data.error_message);
+                if (data.message) {
+                    alert(data.message);
                 }
-            }
+            },
+            error: function (xhr, status, error) {
+                var data = xhr.responseJSON;
+                if (data.message) {
+                    alert(data.message);
+                }
+            },
         });
 
     }
@@ -73,8 +87,15 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
-                    if (data.is_taken) {
-                        alert(data.error_message);
+                    if (data.message) {
+                        alert(data.message);
+                    }
+                    window.location.href = "/moderation/list";
+                },
+                error: function (xhr, status, error) {
+                    var data = xhr.responseJSON;
+                    if (data.message) {
+                        alert(data.message);
                     }
                 }
             });

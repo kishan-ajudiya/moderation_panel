@@ -1,8 +1,9 @@
-FROM python:3-alpine
+FROM python:3.8.2-alpine3.11
 
 MAINTAINER Kishan Ajudiya <kishan.ajudiya@go-mmt.com>
 
-ENV PYTHONUNBUFFERED 1
+ARG env
+ENV CURR_ENV=$env
 
 RUN set -e; \
         apk add --no-cache --virtual .build-deps \
@@ -13,6 +14,7 @@ RUN set -e; \
                 python3-dev \
                 mysql-client \
                 nginx \
+                supervisor \
                 openrc \
         ;
 #RUN apk update && apk add py-mysqldb && apk add mysql-client
@@ -22,18 +24,24 @@ WORKDIR /moderation_panel
 
 COPY requirements.txt /moderation_panel/
 
-RUN pip install -r requirements.txt
-
 RUN touch /etc/nginx/conf.d/moderation_panel.conf
 
 COPY . /moderation_panel/
 
+
+
+COPY docker_config/supervisord/supervisord /etc/init.d/supervisord
+COPY docker_config/supervisord/moderation_panel.ini /etc/supervisord.d/
+
+RUN chmod 755 /etc/init.d/supervisord
+
+
+COPY docker_config/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY docker_config/nginx/moderation_panel.conf /etc/nginx/conf.d/moderation_panel.conf
 
-RUN mkdir /moderation_panel/logs && mkdir /moderation_panel/static && mkdir /run/nginx/ &&  mkdir /run/openrc/ && touch /run/nginx/nginx.pid && touch /run/openrc/softlevel
+RUN mkdir  mkdir /moderation_panel/static && mkdir /run/nginx/ &&  mkdir /run/openrc/ && touch /run/nginx/nginx.pid && touch /run/openrc/softlevel
+
+RUN pip install -r requirements.txt
 
 EXPOSE 80
-EXPOSE 3308
-EXPOSE 3003
 EXPOSE 8000
-EXPOSE 8095

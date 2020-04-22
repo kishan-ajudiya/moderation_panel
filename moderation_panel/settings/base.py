@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+MODERATION_PANEL_ENV = os.getenv("MODERATION_PANEL_ENV", "moderation_dev")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -51,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 ROOT_URLCONF = 'moderation_panel.urls'
 
@@ -102,13 +105,14 @@ MONGODB_DATABASES = {
 }
 
 
+LOG_FORMAT = "[ModerationApp] [%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s"
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'LogFormatter': {
-            'format': '%(asctime)s    %(name)s    %(levelname)s    %(message)s    '
-                      '%(filename)s    %(funcName)s    %(module)s'
+            'format': LOG_FORMAT
         }
     },
     'filters': {
@@ -119,14 +123,15 @@ LOGGING = {
     'handlers': {
         'moderationLoggerHandler': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.WatchedFileHandler',
+            'class': 'logging.StreamHandler',
             'formatter': 'LogFormatter',
-            'filename': 'logs/moderation_panel.log'
+            # 'filename': '/tmp/moderation_panel/moderation_panel.log'
         },
         'file': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': 'logs/sql.log'
+            'class': 'logging.StreamHandler',
+            'formatter': 'LogFormatter',
+            # 'filename': '/tmp/moderation_panel/sql.log'
         },
     },
     'loggers': {

@@ -9,6 +9,7 @@ message DataNode {
     string moderated_by = 6;
     int32 moderated_by_id = 7;
     float moderated_time = 8;
+    repeated string reject_reason = 10;
     repeated Fields fields = 9;
 }
 
@@ -23,6 +24,7 @@ message Fields {
     repeated MetaInfo meta_info = 8;
     string edited_data = 9;
     string status = 10;
+    repeated string reject_reason = 11;
 }
 
 message MetaInfo {

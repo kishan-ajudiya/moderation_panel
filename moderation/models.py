@@ -45,7 +45,7 @@ class ModerationConfig(MongoDocument):
     response_config = DictField()
     display_links = ListField(StringField(max_length=50))
     filter_attributes = ListField(StringField(max_length=50))
-    reject_reason = DictField()
+    reject_reason = ListField()
     required_attributes = ListField(StringField())
     view = EmbeddedDocumentField(ViewConfig)
     attribute_config = EmbeddedDocumentListField(AttributeConfig)
@@ -80,8 +80,10 @@ class DataStore(MongoDocument):
     entity_object_id = IntField(null=True)
     current_status = StringField(null=True)
     entity_data = EmbeddedDocumentField(DataPacket)
-    moderation_status = BooleanField(default=False)
+    moderation_status = StringField(null=True)
     moderation_time = DateTimeField(null=True)
+    reject_reason = ListField()
+    is_moderation_done = BooleanField(default=False)
 
 
 signals.pre_save.connect(MongoDocument.pre_save, sender=ModerationConfig)

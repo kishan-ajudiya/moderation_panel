@@ -2,8 +2,14 @@
 {% load general_tags %}
 {% block main %}
 {{ block.super }}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#" data-ol-has-click-handler="">Home</a></li>
+    <li class="breadcrumb-item"><a href="#" data-ol-has-click-handler="">Notices Moderation</a></li>
+    <li class="breadcrumb-item active">Data</li>
+</ol>
 <form action="/moderation/collect-detail/" enctype="multipart/form-data" id="detail-form" method="post"
       name="detail-form">
+    <input type="hidden" name="unique_id" value="{{ field_value.unique_id }}">
     <div class="accordion" id="accordionExample">
         {% for raw in detail_view %}
         <div class="card">
@@ -29,6 +35,8 @@
         </div>
         {% endfor %}
     </div>
+    {% if not field_value.is_moderation_done %}
     <button class="btn btn-primary btn-lg btn-block" id="submit-form" type="button">Submit</button>
+    {% endif %}
 </form>
 {% endblock main %}

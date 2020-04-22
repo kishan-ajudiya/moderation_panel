@@ -1,0 +1,9 @@
+{% load general_tags %}
+<div class="form-group {% if not full_width %} col-md-2 {% endif %}">
+    <label for="{{attribute}}">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <select class="custom-select" id="{{attribute}}" name="{{attribute}}" required>
+        <option selected value="">Select Action</option>
+        <option value="approve">Approve</option>
+        <option value="reject">Reject</option>
+    </select>
+</div>
