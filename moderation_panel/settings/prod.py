@@ -3,19 +3,20 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'goibibo_inventory',  # Or path to database file if using sqlite3.
-        'USER': 'gouser',  # Not used with sqlite3.
-        'PASSWORD': 'gi@G0u8eR',  # Not used with sqlite3.
-        'HOST': 'pp.mysql.goibibo.dev',  # Set to empty string for localhost. Not used with sqlite3.
+        'USER': 'inventory',  # Not used with sqlite3.
+        'PASSWORD': 'g0!b!b0in',  # Not used with sqlite3.
+        'HOST': 'ingoibibo.mysql.slave.goibibo.com',  # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',  # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {"autocommit": True}
+        'OPTIONS': {"autocommit": True},
+        'CONN_MAX_AGE': 200,
     }
 }
 MONGODB_DATABASES = {
     "default": {
         "name": 'moderation_panel',  # TODO Change DB name
-        "host": 'ds213645.mlab.com:13645',
-        "password": 'ModPP#3',
-        "username": 'moderation_user',
+        "host": 'ingoibibomongo01.prod.goibibo.com',
+        "password": '',
+        "username": '',
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
         "retryWrites": False
     }

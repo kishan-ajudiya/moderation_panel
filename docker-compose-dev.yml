@@ -12,6 +12,6 @@ services:
     environment:
       - CURR_ENV=dev
     command: >
-      python3.7 manage.py runserver 0.0.0.0:8000
+      python manage.py runserver 0.0.0.0:8000
     volumes:
       - /tmp/moderation_panel:/logs
