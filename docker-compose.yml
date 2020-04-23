@@ -4,13 +4,13 @@ services:
     build:
       context: .
       args:
-        - env=moderation_pp
+        - env=pp
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
-      - MODERATION_PANEL_ENV=moderation_pp
+      - CURR_ENV=pp
     command: >
-      ash -c "echo yes | python manage.py collectstatic && /usr/bin/supervisord -n -c /etc/supervisord.d/moderation_panel.ini"
+      ash -c "/usr/bin/supervisord -n -c /etc/supervisord.d/moderation_panel.ini"
     volumes:
       - /tmp/moderation_panel:/logs

@@ -1,15 +1,15 @@
 from .base import *
 
-if MODERATION_PANEL_ENV == "moderation_prod":
+if MODERATION_PANEL_ENV == "prod":
     from .prod import *
 
-elif MODERATION_PANEL_ENV == "moderation_prodpp":
+elif MODERATION_PANEL_ENV == "prodpp":
     from .prodpp import *
 
-elif MODERATION_PANEL_ENV == "moderation_pp":
+elif MODERATION_PANEL_ENV == "pp":
     from .pp import *
 
-elif MODERATION_PANEL_ENV == "moderation_dev":
+elif MODERATION_PANEL_ENV == "dev":
     from .dev import *
 
 

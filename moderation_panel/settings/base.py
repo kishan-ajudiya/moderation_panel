@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-MODERATION_PANEL_ENV = os.getenv("MODERATION_PANEL_ENV", "moderation_dev")
+MODERATION_PANEL_ENV = os.getenv("CURR_ENV", "dev")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
