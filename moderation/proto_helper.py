@@ -17,7 +17,7 @@ def convert_proto_message_to_dict(proto_message, obj):
 
 def dict_to_proto_message(data_dict, obj):
     try:
-        obj = ParseDict(data_dict, obj)
+        obj = ParseDict(data_dict, obj,ignore_unknown_fields=True)
         return obj.SerializeToString()
     except Exception as e:
         message = "%s\t%s" % ("Error in converting dict to proto", repr(e))

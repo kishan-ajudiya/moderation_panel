@@ -109,6 +109,8 @@ def get_detail_entity_view_data(unique_id):
         entity_config_data = ModerationConfigSerializer(entity_config).data
         resp['field_description'] = make_attribute_config(entity_config_data.get("attribute_config", []))
         resp['detail_view'] = entity_config_data.get("view", {}).get('detail_view', [])
+        resp['entity_id'] = entity_config_data.get("entity_id", "")
+        resp['entity_name'] = entity_config_data.get("entity_name", "")
         resp['reject_reason'] = entity_config_data.get("reject_reason", {})
         data_packet_data = DataStoreSerializer(data_packet).data
         packet_dict = {
@@ -174,6 +176,7 @@ def save_moderated_data(data, user):
             "moderated_by_id": user.id,
             "reject_reason": data.get("reject_reason", []),
         }
+        data_packet.is_moderation_done = True
         data_packet.moderation_status = output_data_packet.get("moderation_status", None)
         data_packet.moderated_time = datetime.now()
         data_packet.save()
@@ -181,6 +184,6 @@ def save_moderated_data(data, user):
         status = True
         msg = "Data saved Successfully."
     except Exception as e:
-        msg = "Error While assign/revoke user from data packet."
+        msg = "Error While saving response to data packet."
         logger.critical(msg + " " + repr(e))
     return status, msg

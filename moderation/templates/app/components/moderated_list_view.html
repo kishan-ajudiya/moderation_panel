@@ -21,10 +21,17 @@
     <tr class="table-light text-center">
         {% for column in active_entity.list_view %}
         <td>
+            {% if active_entity.attribute_config|hash:column|hash:"view_type" == "video" %}
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{{ row_data|hash:column|hash:'new_value' }}?autoplay=0"
+                        allowfullscreen ></iframe>
+            </div>
+            {% else %}
             {% if row_data|hash:column and row_data|hash:column|hash:"new_value" %}
             {{ row_data|hash:column|hash:"new_value" }}
             {% else %}
             -
+            {% endif %}
             {% endif %}
         </td>
         {% endfor %}

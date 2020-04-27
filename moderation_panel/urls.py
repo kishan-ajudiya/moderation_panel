@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from django.views import View
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -34,7 +36,15 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+
+class HomeView(View):
+    def get(self, request):
+        return redirect('/moderation/list')
+
+
 urlpatterns = [
+    path('', HomeView.as_view()),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('moderation/', include('moderation.urls')),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

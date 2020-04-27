@@ -17,6 +17,8 @@
                 {% include "app/components/multi_select.html" %}
             {% elif field_description|hash:attribute|hash:'view_type' == 'select' %}
                 {% include "app/components/select_box.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'video' %}
+                {% include "app/components/video.html" %}
             {% endif %}
         {% endif %}
 {% endfor %}

@@ -54,7 +54,7 @@ MIDDLEWARE = [
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-
+SESSION_COOKIE_NAME = "moderation-session"
 ROOT_URLCONF = 'moderation_panel.urls'
 
 TEMPLATES = [
@@ -92,6 +92,8 @@ DATABASES = {
 }
 
 LOGIN_URL = '/admin/login'
+LOGIN_REDIRECT_URL = '/moderation/list'
+LOGOUT_REDIRECT_URL = '/moderation/list'
 
 MONGODB_DATABASES = {
     "default": {

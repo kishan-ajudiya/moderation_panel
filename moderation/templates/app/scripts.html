@@ -74,7 +74,36 @@
     }
 
 
+    function show_alert(message, type){
+
+        var alert_html = '<div class="alert alert-'+ type +' alert-dismissable fade show">'+
+            '<button type="button" class="close" ' +
+            'data-dismiss="alert" aria-hidden="true">' +
+            '&times;' +
+            '</button>' +
+            message +
+            '</div>';
+        $('#alert_div').html(alert_html);
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 2000);
+    }
+
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+    }, 2000);
+
     $("#submit-form").click(function () {
+        if( $("#action").val() === 'reject'){
+            $("#reject_reason").prop('required',true);
+        }
+        else {
+            $("#reject_reason").prop('required',false);
+        }
         if (document.forms['detail-form'].reportValidity()) {
             var form = $(this).closest("form");
             var obj = $("#detail-form").serializeToJSON({});
@@ -88,19 +117,19 @@
                 contentType: 'application/json',
                 success: function (data) {
                     if (data.message) {
-                        alert(data.message);
+                        show_alert(data.message, "success");
                     }
-                    window.location.href = "/moderation/list";
+                    window.location.href = $("#entity_breadcrumb").attr("href");
                 },
                 error: function (xhr, status, error) {
                     var data = xhr.responseJSON;
                     if (data.message) {
-                        alert(data.message);
+                        show_alert(data.message, "danger");
                     }
                 }
             });
         } else {
-            alert("Please Correct Error Below.");
+            show_alert("Please Correct Error Below.", "warning");
             document.forms['detail-form'].reportValidity();
         }
 

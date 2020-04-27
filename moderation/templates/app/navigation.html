@@ -12,7 +12,7 @@
             {% for nav_tabs in nav_bar %}
             <li class="nav-item {% if nav_tabs.active %} active {% endif %}">
                 <a class="nav-link" data-ol-has-click-handler=""
-                   href="/moderation/list?tab_id={{ nav_tabs.entity_id }}">{{ nav_tabs.entity_name }}</a>
+                   href="/moderation/list?entity_id={{ nav_tabs.entity_id }}">{{ nav_tabs.entity_name }}</a>
             </li>
             {% endfor %}
         </ul>

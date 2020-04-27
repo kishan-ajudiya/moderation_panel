@@ -2,9 +2,11 @@
 {% load general_tags %}
 {% block main %}
 {{ block.super }}
+<div id="alert_div">
+</div>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#" data-ol-has-click-handler="">Home</a></li>
-    <li class="breadcrumb-item"><a href="#" data-ol-has-click-handler="">Notices Moderation</a></li>
+    <li class="breadcrumb-item"><a href="/moderation/list" data-ol-has-click-handler="">Home</a></li>
+    <li class="breadcrumb-item"><a id="entity_breadcrumb" href="/moderation/list?entity_id={{ entity_id }}" data-ol-has-click-handler="">{{ entity_name }}</a></li>
     <li class="breadcrumb-item active">Data</li>
 </ol>
 <form action="/moderation/collect-detail/" enctype="multipart/form-data" id="detail-form" method="post"
