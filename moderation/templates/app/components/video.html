@@ -2,10 +2,12 @@
 <div class="form-group col-md-6">
     <div class="card">
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4?autoplay=0" allowfullscreen ></iframe>
+            <video class="embed-responsive-item" controls>
+                 <source src="{{ field_value|hash:attribute|hash:'new_value' }}">
+            </video>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
+            <h5 class="card-title">Caption</h5>
             <p class="card-text">Some quick example text to build on the card title and make up
                 the bulk
                 of the card's content.</p>
