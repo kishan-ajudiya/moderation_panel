@@ -34,6 +34,7 @@ COPY . /moderation_panel/
 
 COPY docker_config/supervisord/supervisord /etc/init.d/supervisord
 COPY docker_config/supervisord/moderation_panel.ini /etc/supervisord.d/
+COPY docker_config/supervisord/supervisord.conf /etc/supervisord.conf
 
 RUN chmod 755 /etc/init.d/supervisord
 
