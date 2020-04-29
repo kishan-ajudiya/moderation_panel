@@ -3,7 +3,7 @@ from django.conf import settings
 
 from moderation.kafka_helper import Producer
 from moderation.proto_helper import dict_to_proto_message
-from proto_files.compiled.moderation_output_packet_pb2 import DataNode as OutputDataNode
+from proto_files.compiled.moderation_output_packet_pb2 import OutputDataNode
 
 logger = logging.getLogger('moderationLogger')
 

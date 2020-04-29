@@ -139,14 +139,16 @@ def assign_revoke_user_to_packet(unique_id, user_assignment, username):
         logger.info("assign_revoke_user_to_packet for unique id and user id " + str(unique_id)
                     + " and " + str(username))
         data_packet = DataStore.objects.get(unique_id=unique_id)
+        if data_packet.user_assigned and data_packet.user_assigned != username:
+            return False, "You can not assign already assigned packet"
+
         if user_assignment:
             data_packet.user_assigned = username
             msg = "User Assigned Successfully."
-        elif data_packet.user_assigned == username:
+        else:
             data_packet.user_assigned = ''
             msg = "User Revoked Successfully."
-        else:
-            msg = "User is not same.."
+
         data_packet.save()
         status = True
         logger.info("user assigned for unique id and user id " + str(unique_id)
@@ -166,6 +168,8 @@ def save_moderated_data(data, user):
             return False, "Packet id is not present."
         data_packet = DataStore.objects.get(unique_id=unique_id)
         data_packet_data = DataStoreSerializer(data_packet).data
+        if data_packet_data.get('user_assigned', '') and data_packet_data.get('user_assigned', '') != user.username:
+            return False, "Data Packet is not assigned to you."
         output_data_packet = {
             "entity_id": data_packet.entity.id,
             "unique_id": data_packet_data.get("unique_id", None),

@@ -60,13 +60,13 @@
             contentType: 'application/json',
             success: function (data) {
                 if (data.message) {
-                    alert(data.message);
+                    show_alert(data.message, "success");
                 }
             },
             error: function (xhr, status, error) {
                 var data = xhr.responseJSON;
                 if (data.message) {
-                    alert(data.message);
+                    show_alert(data.message, "danger");
                 }
             },
         });
