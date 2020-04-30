@@ -1,6 +1,5 @@
-from datetime import datetime
-
 import logging
+from datetime import datetime
 
 from moderation.models import ModerationConfig, DataStore
 from moderation.produce_data import product_data_to_kafka
@@ -121,7 +120,9 @@ def get_detail_entity_view_data(unique_id):
             "entity_object_id": data_packet_data.get('entity_object_id', ''),
             "current_status": {
                 "new_value": data_packet_data.get('current_status', '')
-            }
+            },
+            "selected_reject_reason": data_packet_data.get('reject_reason', []),
+            "moderation_status": data_packet_data.get('moderation_status', [])
         }
         packet_dict.update(data_packet_data.get('entity_data', {}).get('input_data', {}))
         resp['field_value'] = packet_dict
@@ -182,6 +183,7 @@ def save_moderated_data(data, user):
         }
         data_packet.is_moderation_done = True
         data_packet.moderation_status = output_data_packet.get("moderation_status", None)
+        data_packet.reject_reason = output_data_packet.get("reject_reason", [])
         data_packet.moderated_time = datetime.now()
         data_packet.save()
         product_data_to_kafka(str(data_packet_data.get("unique_id")), output_data_packet)

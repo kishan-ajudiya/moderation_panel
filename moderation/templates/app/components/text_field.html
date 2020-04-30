@@ -18,14 +18,7 @@
     </div>
 </div>
 {% if field_description|hash:attribute|hash:'moderable' %}
-<div class="form-group {% if not full_width %} col-md-2  {% endif %}">
-    <label for="moderable_{{attribute}}">{{ field_description|hash:attribute|hash:'label' }} Accept/Reject</label>
-    <select class="custom-select" id="moderable_{{attribute}}" name="{{attribute}}.moderable">
-        <option selected="">None</option>
-        <option value="1">Accept</option>
-        <option value="2">Reject</option>
-    </select>
-</div>
+    {% include "app/components/moderation_select.html" %}
 {% endif %}
 
 {% if field_description|hash:attribute|hash:'child_attr' is not None  %}

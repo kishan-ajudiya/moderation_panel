@@ -1,9 +1,13 @@
 {% load general_tags %}
-<div class="form-group {% if not full_width %} col-md-2 {% endif %}">
-    <label for="{{attribute}}">{{ field_description|hash:attribute|hash:'label' }}</label>
-    <select class="custom-select" id="{{attribute}}" name="{{attribute}}" required>
-        <option selected value="">Select Action</option>
-        <option value="approve">Approve</option>
-        <option value="reject">Reject</option>
+<div class="form-group {% if not full_width %} col-md-2  {% endif %}">
+    <label for="moderable_{{attribute}}">{{ field_description|hash:attribute|hash:'label' }} Accept/Reject</label>
+    <select class="custom-select"
+            id="moderable_{{attribute}}"
+            name="{{attribute}}.moderable"
+            {% if field_value.is_moderation_done %} disabled {% endif %}
+    >
+        <option selected="">None</option>
+        <option value="approve" {% if field_value.moderation_status == 'approve' %} selected {% endif %} >Accept</option>
+        <option value="reject" {% if field_value.moderation_status == 'reject' %} selected {% endif %}>Reject</option>
     </select>
 </div>
