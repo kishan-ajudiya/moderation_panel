@@ -14,6 +14,8 @@ from rest_framework.views import APIView
 
 from . import logger
 from .models import ModerationConfig, DataStore
+from .serializers.data_store import DataStoreSerializer
+from .serializers.moderation_config import ModerationConfigSerializer
 from .utils.resource import get_all_active_entity, get_entity_table_data, get_detail_entity_view_data, \
     assign_revoke_user_to_packet, save_moderated_data
 
@@ -111,6 +113,27 @@ class Config(APIView):
     authentication_classes = (TokenAuthentication, BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get(self, request):
+        response = {
+            "data": {},
+            "message": "",
+            "success": False
+        }
+        rep_status = status.HTTP_400_BAD_REQUEST
+        try:
+            entity_id = request.data.get('entity_id', '')
+            config_packet = ModerationConfig.objects.get(entity_id=entity_id)
+            response["data"] = ModerationConfigSerializer(config_packet).data
+            response["success"] = True
+            rep_status = status.HTTP_200_OK
+        except NotUniqueError as e:
+            response["message"] = "Moderation Config is already exist."
+            logger.error(response["msg"])
+        except Exception as e:
+            response["message"] = repr(e)
+            logger.error(response["message"])
+        return Response(data=response, status=rep_status)
+
     def post(self, request):
         """
 
@@ -175,10 +198,10 @@ class DataPacket(APIView):
         }
         rep_status = status.HTTP_400_BAD_REQUEST
         try:
-            unique_id = request.data.get('uuid', '')
+            unique_id = request.data.get('unique_id', '')
             entity_id = request.data.get('entity_id', '')
             data_packet = DataStore.objects.get(unique_id=unique_id, entity=entity_id)
-            response["data"] = json.loads(data_packet.to_json())
+            response["data"] = DataStoreSerializer(data_packet).data
             response["success"] = True
             rep_status = status.HTTP_200_OK
         except NotUniqueError as e:

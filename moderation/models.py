@@ -76,7 +76,7 @@ class DataPacket(EmbeddedDocument):
 class DataStore(MongoDocument):
     entity = LazyReferenceField(ModerationConfig, reverse_delete_rule=1)
     user_assigned = StringField(null=True)
-    unique_id = UUIDField(unique=True)
+    unique_id = UUIDField(unique=True, binary=False)
     entity_object_id = IntField(null=True)
     current_status = StringField(null=True)
     entity_data = EmbeddedDocumentField(DataPacket)
