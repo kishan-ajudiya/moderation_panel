@@ -174,7 +174,7 @@ def save_moderated_data(data, user):
         output_data_packet = {
             "entity_id": data_packet.entity.id,
             "unique_id": data_packet_data.get("unique_id", None),
-            "object_id": data_packet_data.get("object_id", None),
+            "object_id": data_packet_data.get("entity_object_id", None),
             "current_status": data_packet_data.get("current_status", None),
             "moderation_status": data.get("action", None),
             "moderated_by": user.username,
