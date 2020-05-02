@@ -61,12 +61,12 @@
             {% if page_obj.has_previous %}
             <li class="paginate_button page-item previous "
                 data-ol-has-click-handler="">
-                <a href='?moderated_page=1' aria-controls="example" data-dt-idx="0"
+                <a href='{{ request.get_full_path }}&moderated_page=1' aria-controls="example" data-dt-idx="0"
                    tabindex="0" class="page-link">First</a>
             </li>
             <li class="paginate_button page-item previous "
                 data-ol-has-click-handler="">
-                <a href='?moderated_page={{ page_obj.previous_page_number }}' aria-controls="example" data-dt-idx="0"
+                <a href='{{ request.get_full_path }}&moderated_page={{ page_obj.previous_page_number }}' aria-controls="example" data-dt-idx="0"
                    tabindex="0" class="page-link">&laquo;</a>
             </li>
             {% endif %}
@@ -74,17 +74,17 @@
             {% if pg > page_obj.number|add:-2 and pg < page_obj.number|add:2 %}
             <li class="paginate_button page-item previous {% if page_obj.number == pg %} active {% endif %}" id="example_previous"
                 data-ol-has-click-handler="">
-                <a href='?moderated_page={{pg}}' aria-controls="example" data-dt-idx="0"
+                <a href='{{ request.get_full_path }}&moderated_page={{pg}}' aria-controls="example" data-dt-idx="0"
                    tabindex="0" class="page-link">{{pg}}</a>
             </li>
             {% endif %}
             {% endfor %}
             {% if page_obj.has_next %}
             <li class="paginate_button page-item next "
-                data-ol-has-click-handler=""><a href="?moderated_page={{ page_obj.next_page_number }}" aria-controls="example" data-dt-idx="2"
+                data-ol-has-click-handler=""><a href="{{ request.get_full_path }}&moderated_page={{ page_obj.next_page_number }}" aria-controls="example" data-dt-idx="2"
                                                 tabindex="0" class="page-link">&raquo;</a></li>
             <li class="paginate_button page-item next "
-                data-ol-has-click-handler=""><a href="?moderated_page={{ page_obj.paginator.num_pages }}" aria-controls="example" data-dt-idx="2"
+                data-ol-has-click-handler=""><a href="{{ request.get_full_path }}&moderated_page={{ page_obj.paginator.num_pages }}" aria-controls="example" data-dt-idx="2"
                                                 tabindex="0" class="page-link">last</a></li>
             {% endif %}
         </ul>

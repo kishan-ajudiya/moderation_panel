@@ -8,9 +8,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Caption</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up
-                the bulk
-                of the card's content.</p>
+            <p class="card-text">{{ field_value|hash:'caption'|hash:'new_value' }}</p>
             {% if field_description|hash:attribute|hash:'is_moderable' %}
             <label for="moderable_{{attribute}}">Accept/Reject</label>
             <div class="form-group">
