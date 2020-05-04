@@ -2,7 +2,7 @@
 <div class="form-group {% if not full_width %} col-md-3 {% endif %}">
     <label for="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}"
            class="col-sm-6 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
-    <div class="col-sm-10">
+    <div class="col-sm-11">
         <input type="text"
                class="form-control"
                placeholder="None"
