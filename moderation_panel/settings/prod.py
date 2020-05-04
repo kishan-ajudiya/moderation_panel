@@ -18,8 +18,7 @@ MONGODB_DATABASES = {
         "password": '',
         "username": '',
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
-        "retryWrites": True,
-        "replicaSet": 'inventory'
+        "retryWrites": True
     }
 }
 MODERATION_PANEL_KAFKA_SERVER_CONF = {
