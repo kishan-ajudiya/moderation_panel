@@ -182,7 +182,7 @@ def save_moderated_data(data, user):
             "reject_reason": data.get("reject_reason", []),
         }
         data_packet.is_moderation_done = True
-        data_packet.moderated_by = output_data_packet.get("moderated_by", None)
+        data_packet.user_assigned = output_data_packet.get("moderated_by", None)
         data_packet.moderation_status = output_data_packet.get("moderation_status", None)
         data_packet.reject_reason = output_data_packet.get("reject_reason", [])
         data_packet.moderated_time = datetime.now()
