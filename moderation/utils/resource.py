@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+from django.core.paginator import Paginator
+
 from moderation.models import ModerationConfig, DataStore
 from moderation.produce_data import product_data_to_kafka
 from moderation.serializers.data_store import DataStoreSerializer
@@ -46,7 +48,7 @@ def get_all_active_entity(user, entity_id=''):
                     "entity_name": entity.get("entity_name", ''),
                     "active": False,
                     "list_view": entity.get("view", {}).get('list_view', []),
-                    "filter_attribute": entity.get("filter_attributes", ''),
+                    "filter_attributes": entity.get("filter_attributes", []),
                     "attribute_config": make_attribute_config(entity.get("attribute_config", []))
                 }
                 if entity_id == str(entity.get("entity_id", '')):
@@ -64,7 +66,7 @@ def get_all_active_entity(user, entity_id=''):
     return status, resp
 
 
-def get_entity_table_data(active_entity_id):
+def get_entity_table_data(active_entity_id, row_query):
     resp = {
         "pending_packets": [],
         "moderated_packets": []
@@ -72,7 +74,11 @@ def get_entity_table_data(active_entity_id):
     status = False
     try:
         logger.info("get_entity_table_data for tab id " + str(active_entity_id))
-        data_packets = DataStore.objects.filter(entity=active_entity_id)
+        if row_query:
+            row_query['entity'] = active_entity_id
+            data_packets = DataStore.objects.filter(__raw__=row_query).order_by('-created')
+        else:
+            data_packets = DataStore.objects.filter(entity=active_entity_id).order_by('-created')
         data_packets_data = DataStoreSerializer(data_packets, many=True).data
         for packet in data_packets_data:
             packet_dict = {
@@ -96,6 +102,35 @@ def get_entity_table_data(active_entity_id):
         msg = "Error While Fetching entity data."
         logger.critical(msg + " " + repr(e))
     return status, resp
+
+
+def get_list_view_context(entity_id, pending_page, moderated_page, user, filter_params={}):
+    row_query = {}
+    for ele in filter_params:
+        if filter_params.get(ele):
+            query_key = "entity_data.input_data." + ele + ".new_value"
+            row_query[query_key] = {"$regex": ".*" + filter_params.get(ele, '') + ".*"}
+
+    stat, entity_data = get_all_active_entity(user, entity_id)
+    active_entity_id = entity_data.get('active_entity', {}).get("entity_id", '')
+    stat, table_data = get_entity_table_data(active_entity_id, row_query)
+    context = {
+        "nav_bar": entity_data.get('entity_data', []),
+        "active_entity": entity_data.get('active_entity', {})
+    }
+
+    active_tab = 'moderated' if moderated_page else 'pending'
+    context['active_tab'] = active_tab
+    pending_paginator = Paginator(table_data.get('pending_packets', []), 20)
+    pending_page_number = pending_page if pending_page else 1
+    pending_page_obj = pending_paginator.get_page(pending_page_number)
+    context["pending_page_obj"] = pending_page_obj
+
+    moderated_paginator = Paginator(table_data.get('moderated_packets', []), 20)
+    moderated_page_number = moderated_page if moderated_page else 1
+    moderated_page_obj = moderated_paginator.get_page(moderated_page_number)
+    context["moderated_page_obj"] = moderated_page_obj
+    return context
 
 
 def get_detail_entity_view_data(unique_id):

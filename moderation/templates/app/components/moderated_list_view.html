@@ -1,5 +1,5 @@
 {% load general_tags %}
-<table class="table table-bordered" id="data-list-table-moderated">
+<table class="table table-bordered fixed" id="data-list-table-moderated">
     <thead class="thead-dark">
     <tr>
         {% for column in active_entity.list_view %}
@@ -20,7 +20,7 @@
     {% for row_data in page_obj %}
     <tr class="table-light text-center">
         {% for column in active_entity.list_view %}
-        <td>
+        <td style="word-wrap:break-spaces;">
             {% if active_entity.attribute_config|hash:column|hash:"view_type" == "video" %}
             <div class="embed-responsive embed-responsive-16by9">
                 <video class="embed-responsive-item" controls>

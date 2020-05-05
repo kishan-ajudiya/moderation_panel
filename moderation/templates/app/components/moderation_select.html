@@ -7,7 +7,11 @@
             {% if field_value.is_moderation_done %} disabled {% endif %}
     >
         <option selected="">None</option>
-        <option value="approve" {% if field_value.moderation_status == 'approve' %} selected {% endif %} >Accept</option>
-        <option value="reject" {% if field_value.moderation_status == 'reject' %} selected {% endif %}>Reject</option>
+        <option value="approve" {% if field_value.moderation_status == 'approve' %} selected {% endif %} >
+            Accept
+        </option>
+        <option value="reject" {% if field_value.moderation_status == 'reject' %} selected {% endif %}>
+            Reject
+        </option>
     </select>
 </div>

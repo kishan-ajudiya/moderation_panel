@@ -2,7 +2,7 @@
 <div class="form-group col-md-6">
     <div class="card">
         <div class="embed-responsive embed-responsive-16by9">
-            <video class="embed-responsive-item" controls>
+            <video class="embed-responsive-item" style="object-fit : cover" controls>
                  <source src="{{ field_value|hash:attribute|hash:'new_value' }}">
             </video>
         </div>

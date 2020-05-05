@@ -3,11 +3,9 @@
 <div class="form-group col-md-3">
     <label for="{{attribute}}" class="col-sm-6 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
      <div class="col-sm-12">
-        <textarea class="form-control" id="{{attribute}}" rows="3" spellcheck="true" name="{{attribute}}.value"
+        <textarea class="form-control" id="{{attribute}}" rows="2" spellcheck="true" name="{{attribute}}.value"
               placeholder="None"
-              {% if not field_description|hash:attribute|hash:'editable' %} readonly {% endif %}">
-                {% if field_value|hash:attribute and field_value|hash:attribute|hash:'new_value' %}{{field_value|hash:attribute|hash:'new_value' }}{% endif %}
-        </textarea>
+              {% if not field_description|hash:attribute|hash:'editable' %} readonly {% endif %}">{% if field_value|hash:attribute and field_value|hash:attribute|hash:'new_value' %}{{field_value|hash:attribute|hash:'new_value' }}{% endif %}</textarea>
      </div>
 </div>
 {% if field_description|hash:attribute|hash:'moderable' %}

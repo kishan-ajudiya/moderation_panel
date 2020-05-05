@@ -17,35 +17,29 @@ from .models import ModerationConfig, DataStore
 from .serializers.data_store import DataStoreSerializer
 from .serializers.moderation_config import ModerationConfigSerializer
 from .utils.resource import get_all_active_entity, get_entity_table_data, get_detail_entity_view_data, \
-    assign_revoke_user_to_packet, save_moderated_data
+    assign_revoke_user_to_packet, save_moderated_data, get_list_view_context
 
 
 class ListView(View):
 
     def get(self, request):
         entity_id = request.GET.get('entity_id', '')
-        stat, entity_data = get_all_active_entity(request.user, entity_id)
-        active_entity_id = entity_data.get('active_entity', {}).get("entity_id", '')
-        stat, table_data = get_entity_table_data(active_entity_id)
-        context = {
-            "nav_bar": entity_data.get('entity_data', []),
-            "active_entity": entity_data.get('active_entity', {})
-        }
         pending_page = request.GET.get('pending_page', '')
         moderated_page = request.GET.get('moderated_page', '')
+        user = request.user
+        context = get_list_view_context(entity_id, pending_page, moderated_page, user)
+        return render(request, "app/list_view.html", context)
 
-        active_tab = 'moderated' if moderated_page else 'pending'
-        context['active_tab'] = active_tab
-        pending_paginator = Paginator(table_data.get('pending_packets', []), 10)
-        pending_page_number = pending_page if pending_page else 1
-        pending_page_obj = pending_paginator.get_page(pending_page_number)
-        context["pending_page_obj"] = pending_page_obj
-
-        moderated_paginator = Paginator(table_data.get('moderated_packets', []), 10)
-        moderated_page_number = moderated_page if moderated_page else 1
-        moderated_page_obj = moderated_paginator.get_page(moderated_page_number)
-        context["moderated_page_obj"] = moderated_page_obj
-
+    def post(self, request):
+        request_data = {}
+        for k in request.POST:
+            request_data[k] = request.POST.get(k)
+        request_data.pop('csrfmiddlewaretoken', None)
+        entity_id = request_data.pop('entity_id', '')
+        pending_page = request_data.pop('pending_page', '')
+        moderated_page = request_data.pop('moderated_page', '')
+        user = request.user
+        context = get_list_view_context(entity_id, pending_page, moderated_page, user, request_data)
         return render(request, "app/list_view.html", context)
 
 

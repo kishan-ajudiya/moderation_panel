@@ -12,14 +12,16 @@
                 dom: '<"top"f>rt<"bottom"><"clear">',
                 ordering: true,
                 paging: false,
-                info: false
+                info: false,
+                searching: false
             }
         );
         $('#data-list-table-moderated').DataTable({
                 dom: '<"top"f>rt<"bottom"><"clear">',
                 ordering: true,
                 paging: false,
-                info: false
+                info: false,
+                searching: false
             }
         );
     });
@@ -38,6 +40,16 @@
             }
         }
     });
+
+    function toggle_reject_reason(obj) {
+        var selected_action = $(obj).val();
+        if(selected_action === 'reject'){
+            $('#reject_reason_div').show();
+        }
+        else{
+            $('#reject_reason_div').hide();
+        }
+    }
 
     function user_assign(obj) {
         var unique_id = $(obj).data("unique_id");

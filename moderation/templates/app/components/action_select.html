@@ -5,6 +5,7 @@
         <select class="custom-select" id="{{attribute}}" name="{{attribute}}"
                 required
                 {% if field_value.is_moderation_done %} disabled {% endif %}
+                onchange="toggle_reject_reason(this);"
         >
             <option selected value="">Select Action</option>
             <option value="approve" {% if field_value.moderation_status == 'approve' %} selected {% endif %} >

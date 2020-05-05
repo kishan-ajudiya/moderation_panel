@@ -1,0 +1,12 @@
+{% if active_entity.filter_attributes %}
+<div class="row col-sm-12 mr-sm-12 justify-content-md-around">
+    <form class="form-inline my-1 my-lg-3" action="{{ request.path }}" method="post">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="hidden" name="entity_id" value="{{ active_entity.entity_id }}">
+        {% for filter_attr in active_entity.filter_attributes %}
+        <input class="form-control mr-sm-2" type="text" placeholder="Search for {{filter_attr}}" name="{{filter_attr}}">
+        {% endfor %}
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</div>
+{% endif %}
