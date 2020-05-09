@@ -45,15 +45,24 @@
         </td>
         <td class="text-center">
             <div class="checkbox {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}">
-                {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' == request.user.username %} <i class="fas fa-user"></i> {% endif %}
-                {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} <i class="fas fa-users"></i> {% endif %}
-                <input type="checkbox" data-toggle="toggle" data-onstyle="outline-info"
-                       data-offstyle="outline-light" data-on="Assign" data-off="Assigned"
-                       id="{{ row_data|hash:'unique_id' }}"
-                       onchange="user_assign(this);" data-unique_id="{{ row_data|hash:'unique_id' }}"
-                       {% if not row_data|hash:'user_assigned' %} checked {% endif %}
-                       {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}
-                >
+                {% if row_data|hash:'user_assigned' %}
+                    {% if row_data|hash:'user_assigned' == request.user.username %}
+                        <span class="badge badge-success">{{ row_data|hash:'user_assigned' }}</span>
+                        <i data-unique_id="{{ row_data|hash:'unique_id' }}" onclick="user_assign(this);" class="fa fa-minus-square"></i>
+                    {% endif %}
+                    {% if row_data|hash:'user_assigned' != request.user.username %}
+                        <i class="fas fa-users"></i>
+                        <span class="badge badge-pill badge-primary">{{ row_data|hash:'user_assigned' }}</span>
+                    {% endif %}
+                {% else %}
+                    <input type="checkbox" data-toggle="toggle" data-onstyle="outline-info"
+                           data-offstyle="outline-light" data-on="Assign" data-off="Assigned"
+                           id="{{ row_data|hash:'unique_id' }}"
+                           onchange="user_assign(this);" data-unique_id="{{ row_data|hash:'unique_id' }}"
+                           {% if not row_data|hash:'user_assigned' %} checked {% endif %}
+                           {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}
+                    >
+                {% endif %}
             </div>
         </td>
     </tr>

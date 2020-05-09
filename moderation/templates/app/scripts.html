@@ -8,7 +8,22 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
+        $('#data-list-table-pending').DataTable({
+                dom: '<"top"f>rt<"bottom"><"clear">',
+                ordering: true,
+                paging: false,
+                info: false,
+                searching: false
+            }
+        );
+        $('#data-list-table-moderated').DataTable({
+                dom: '<"top"f>rt<"bottom"><"clear">',
+                ordering: true,
+                paging: false,
+                info: false,
+                searching: false
+            }
+        );
     });
 
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -59,6 +74,7 @@
                 if (data.message) {
                     show_alert(data.message, "success");
                 }
+                location.reload();
             },
             error: function (xhr, status, error) {
                 var data = xhr.responseJSON;

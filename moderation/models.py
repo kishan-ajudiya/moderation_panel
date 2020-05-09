@@ -80,7 +80,7 @@ class DataStore(MongoDocument):
     entity_object_id = IntField(null=True)
     current_status = StringField(null=True)
     entity_data = EmbeddedDocumentField(DataPacket)
-    moderation_status = StringField(null=True)
+    moderation_status = StringField(null=True, default="pending")
     moderation_time = DateTimeField(null=True)
     reject_reason = ListField()
     is_moderation_done = BooleanField(default=False)

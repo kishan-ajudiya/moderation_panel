@@ -2,7 +2,7 @@
 <div class="form-group {% if not full_width %} col-md-3 {% endif %}"
      {% if not field_value.selected_reject_reason %} style="display: none"  {% endif %}
      id="reject_reason_div">
-    <label for="{{attribute}}" class="col-sm-6 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <label for="{{attribute}}" class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
     <div class="col-sm-12">
         <select class="custom-select overflow-auto"
                 id="{{attribute}}"
@@ -11,7 +11,7 @@
                 {% if field_value.is_moderation_done %} disabled {% endif %}>
             <option value="">Select Reject Reason</option>
             {% for reason in reject_reason %}
-                <option style="word-wrap:break-spaces;" value={{reason}} {% if reason in field_value.selected_reject_reason %} selected {% endif %}>
+                <option style="white-space: pre-line;" value={{reason}} {% if reason in field_value.selected_reject_reason %} selected {% endif %}>
                     {{reason}}
                 </option>
             {% endfor %}

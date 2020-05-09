@@ -1,6 +1,7 @@
+import csv
 import json
 
-from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from mongoengine import NotUniqueError
@@ -16,8 +17,42 @@ from . import logger
 from .models import ModerationConfig, DataStore
 from .serializers.data_store import DataStoreSerializer
 from .serializers.moderation_config import ModerationConfigSerializer
-from .utils.resource import get_all_active_entity, get_entity_table_data, get_detail_entity_view_data, \
-    assign_revoke_user_to_packet, save_moderated_data, get_list_view_context
+from .utils.resource import get_detail_entity_view_data, \
+    assign_revoke_user_to_packet, save_moderated_data, get_list_view_context, get_entity_user_report
+
+
+class Reports(View):
+
+    def get(self, request):
+        entities = ModerationConfig.objects.only("entity_name", "entity_id").filter(is_active=True)
+        entity_list = []
+        for entity in entities:
+            entity_list.append({"entity_id": entity.id, "entity_name": entity.entity_name})
+        context = {
+            "entity_list": entity_list
+        }
+        return render(request, "app/report.html", context)
+
+    def post(self, request):
+        entity_id = request.POST.get('entity_id', '')
+        from_date = request.POST.get('from_date', '')
+        to_date = request.POST.get('to_date', '')
+        res_status, row_data = get_entity_user_report(entity_id, from_date, to_date)
+        if res_status:
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="moderation_data_report.csv"'
+            writer = csv.writer(response)
+            for row in row_data:
+                writer.writerow(row)
+            return response
+        else:
+            response = {
+                "data": {},
+                "message": "",
+                "success": False
+            }
+            rep_status = status.HTTP_200_OK if res_status else status.HTTP_400_BAD_REQUEST
+            return Response(data=response, status=rep_status)
 
 
 class ListView(View):
@@ -27,7 +62,7 @@ class ListView(View):
         pending_page = request.GET.get('pending_page', '')
         moderated_page = request.GET.get('moderated_page', '')
         user = request.user
-        context = get_list_view_context(entity_id, pending_page, moderated_page, user)
+        res_status, context = get_list_view_context(entity_id, pending_page, moderated_page, user)
         return render(request, "app/list_view.html", context)
 
     def post(self, request):
@@ -39,7 +74,7 @@ class ListView(View):
         pending_page = request_data.pop('pending_page', '')
         moderated_page = request_data.pop('moderated_page', '')
         user = request.user
-        context = get_list_view_context(entity_id, pending_page, moderated_page, user, request_data)
+        res_status, context = get_list_view_context(entity_id, pending_page, moderated_page, user, request_data)
         return render(request, "app/list_view.html", context)
 
 

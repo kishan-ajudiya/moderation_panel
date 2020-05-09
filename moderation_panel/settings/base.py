@@ -92,9 +92,9 @@ DATABASES = {
     }
 }
 
-LOGIN_URL = '/admin/login'
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/moderation/list'
-LOGOUT_REDIRECT_URL = '/moderation/list'
+LOGOUT_REDIRECT_URL = '/login'
 
 MONGODB_DATABASES = {
     "default": {
