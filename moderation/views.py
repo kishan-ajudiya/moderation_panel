@@ -1,4 +1,5 @@
 import csv
+import datetime
 import json
 
 from django.http import HttpResponse
@@ -40,7 +41,8 @@ class Reports(View):
         res_status, row_data = get_entity_user_report(entity_id, from_date, to_date)
         if res_status:
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="moderation_data_report.csv"'
+            file_name = 'moderation_data_report_' + datetime.datetime.now().strftime('%Y_%m_%d-%H_%M_%S') + '.csv'
+            response['Content-Disposition'] = 'attachment; filename="' + file_name + '"'
             writer = csv.writer(response)
             for row in row_data:
                 writer.writerow(row)

@@ -3,7 +3,7 @@
     <thead class="table-primary">
     <tr>
         {% for column in active_entity.list_view %}
-        <th class="text-center" scope="col">
+        <th class="text-center table-data-layout" scope="col">
             {% if active_entity.attribute_config|hash:column and active_entity.attribute_config|hash:column|hash:"label" %}
             {{ active_entity.attribute_config|hash:column|hash:"label" }}
             {% else %}
@@ -12,15 +12,15 @@
 <!--            <i class="fa fa-fw fa-sort"></i>-->
         </th>
         {% endfor %}
-        <th class="text-center" scope="col">Details</th>
-        <th class="text-center" scope="col">User Assigned</th>
+        <th class="text-center table-data-layout" scope="col">Details</th>
+        <th class="text-center table-data-layout" scope="col">User Assigned</th>
     </tr>
     </thead>
     <tbody>
     {% for row_data in page_obj %}
     <tr class="table-light text-center">
         {% for column in active_entity.list_view %}
-        <td class="text-center">
+       <td class="text-center table-data-layout">
             {% if active_entity.attribute_config|hash:column|hash:"view_type" == "video" %}
             <div class="embed-responsive embed-responsive-16by9">
                 <video class="embed-responsive-item" controls>
@@ -36,14 +36,14 @@
             {% endif %}
         </td>
         {% endfor %}
-        <td class="text-center">
+        <td class="text-center table-data-layout">
             <button class="btn btn-outline-success">
                 <a href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}">
                     Go to Details
                 </a>
             </button>
         </td>
-        <td class="text-center">
+        <td class="text-center table-data-layout">
             <div class="checkbox {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}">
                 {% if row_data|hash:'user_assigned' %}
                     {% if row_data|hash:'user_assigned' == request.user.username %}
