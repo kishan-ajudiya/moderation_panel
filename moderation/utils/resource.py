@@ -103,6 +103,9 @@ def get_entity_table_data(active_entity_id, filter_params=None):
                 "user_assigned": packet.get('user_assigned', ''),
                 "current_status": {
                     "new_value": packet.get('current_status', '')
+                },
+                "created": {
+                    "new_value": packet.get('created', '')
                 }
             }
             packet_dict.update(packet.get('entity_data', {}).get('input_data', {}))
@@ -172,6 +175,9 @@ def get_detail_entity_view_data(unique_id):
             "entity_object_id": data_packet_data.get('entity_object_id', ''),
             "current_status": {
                 "new_value": data_packet_data.get('current_status', '')
+            },
+            "created": {
+                "new_value": data_packet_data.get('created', '')
             },
             "selected_reject_reason": data_packet_data.get('reject_reason', []),
             "moderation_status": data_packet_data.get('moderation_status', [])

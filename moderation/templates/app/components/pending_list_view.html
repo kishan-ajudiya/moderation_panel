@@ -47,12 +47,18 @@
             <div class="checkbox {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}">
                 {% if row_data|hash:'user_assigned' %}
                     {% if row_data|hash:'user_assigned' == request.user.username %}
-                <h5><span class="badge badge-success">{{ row_data|hash:'user_assigned' }}</span></h5>
-                        <button type = "button" class = "btn btn-outline-primary btn-sm"><i data-unique_id="{{ row_data|hash:'unique_id' }}" onclick="user_assign(this);" class="fa fa-minus-square"></i></button>
+                <h5>
+                    <span class="badge badge-success">{{ row_data|hash:'user_assigned' }}</span>
+                    <span class="badge badge-light">
+                        <a href="">
+                            <i data-unique_id="{{ row_data|hash:'unique_id' }}" onclick="user_assign(this);" class="fa fa-minus-square"></i>
+                        </a>
+                    </span>
+                </h5>
                     {% endif %}
                     {% if row_data|hash:'user_assigned' != request.user.username %}
-                        <i class="fas fa-users"></i>
-                <h5><span class="badge badge-pill badge-primary">{{ row_data|hash:'user_assigned' }}</span></h5>
+<!--                        <i class="fas fa-users"></i>-->
+                <h5><span class="badge badge-primary">{{ row_data|hash:'user_assigned' }}</span></h5>
                     {% endif %}
                 {% else %}
                     <input type="checkbox" data-toggle="toggle" data-onstyle="outline-info"
