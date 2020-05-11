@@ -1,6 +1,6 @@
 {% load general_tags %}
-<table class="table table-bordered" id="data-list-table-moderated" style="table-layout: fixed; width: 100%">
-    <thead class="thead-dark">
+<table class="table table-bordered table-hover" id="data-list-table-moderated" style="table-layout: fixed; width: 100%">
+    <thead class="table-primary">
     <tr>
         {% for column in active_entity.list_view %}
         <th class="text-center" scope="col">
@@ -9,7 +9,7 @@
             {% else %}
             -
             {% endif %}
-            <i class="fa fa-fw fa-sort"></i>
+<!--            <i class="fa fa-fw fa-sort"></i>-->
         </th>
         {% endfor %}
         <th class="text-center" scope="col">Details</th>
@@ -20,7 +20,7 @@
     {% for row_data in page_obj %}
     <tr class="table-light text-center">
         {% for column in active_entity.list_view %}
-        <td style="word-wrap:break-word;">
+        <td class="text-center">
             {% if active_entity.attribute_config|hash:column|hash:"view_type" == "video" %}
             <div class="embed-responsive embed-responsive-16by9">
                 <video class="embed-responsive-item" controls>
@@ -37,7 +37,7 @@
         </td>
         {% endfor %}
         <td class="text-center">
-            <button class="btn btn-outline-info">
+            <button class="btn btn-outline-success">
                 <a href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}">
                     Go to Details
                 </a>

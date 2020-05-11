@@ -3,10 +3,10 @@
     <form class="form-inline my-1 my-lg-3" action="{{ request.path }}" method="post">
         {% csrf_token %}
         <input class="form-control mr-sm-2" type="hidden" name="entity_id" value="{{ active_entity.entity_id }}">
-        <div class="form-group">
+
         <label for="from_date" class="mr-sm-2">From date:</label>
-        <input type="date" class="form-control mr-sm-2" id="from_date" name="from_date" placeholder="From date">
-        </div>
+        <input type="date" class="form-control mr-sm-2" id="from_date" name="from_date">
+
         <label for="to_date" class="mr-sm-2">To date:</label>
         <input type="date" class="form-control mr-sm-2" id="to_date" name="to_date">
 
