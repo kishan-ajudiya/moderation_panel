@@ -17,86 +17,86 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='moderation_output_packet.proto',
-  package='',
+  package='moderation.output',
   syntax='proto3',
-  serialized_pb=_b('\n\x1emoderation_output_packet.proto\"\xed\x01\n\x08\x44\x61taNode\x12\x11\n\tentity_id\x18\x01 \x01(\x05\x12\x11\n\tunique_id\x18\x02 \x01(\t\x12\x11\n\tobject_id\x18\x03 \x01(\x05\x12\x16\n\x0e\x63urrent_status\x18\x04 \x01(\t\x12\x19\n\x11moderation_status\x18\x05 \x01(\t\x12\x14\n\x0cmoderated_by\x18\x06 \x01(\t\x12\x17\n\x0fmoderated_by_id\x18\x07 \x01(\x05\x12\x16\n\x0emoderated_time\x18\x08 \x01(\x02\x12\x15\n\rreject_reason\x18\n \x03(\t\x12\x17\n\x06\x66ields\x18\t \x03(\x0b\x32\x07.Fields\"\xe9\x01\n\x06\x46ields\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\nfield_name\x18\x02 \x01(\t\x12\x11\n\tnew_value\x18\x03 \x01(\t\x12\x11\n\told_value\x18\x04 \x01(\t\x12\x11\n\tparent_id\x18\x05 \x01(\x05\x12\x18\n\x10group_field_name\x18\x06 \x01(\t\x12\x12\n\nlist_value\x18\x07 \x03(\t\x12\x1c\n\tmeta_info\x18\x08 \x03(\x0b\x32\t.MetaInfo\x12\x13\n\x0b\x65\x64ited_data\x18\t \x01(\t\x12\x0e\n\x06status\x18\n \x01(\t\x12\x15\n\rreject_reason\x18\x0b \x03(\t\"&\n\x08MetaInfo\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x1emoderation_output_packet.proto\x12\x11moderation.output\"\x85\x02\n\x0eOutputDataNode\x12\x11\n\tentity_id\x18\x01 \x01(\x05\x12\x11\n\tunique_id\x18\x02 \x01(\t\x12\x11\n\tobject_id\x18\x03 \x01(\x05\x12\x16\n\x0e\x63urrent_status\x18\x04 \x01(\t\x12\x19\n\x11moderation_status\x18\x05 \x01(\t\x12\x14\n\x0cmoderated_by\x18\x06 \x01(\t\x12\x17\n\x0fmoderated_by_id\x18\x07 \x01(\x05\x12\x16\n\x0emoderated_time\x18\x08 \x01(\x02\x12\x15\n\rreject_reason\x18\n \x03(\t\x12)\n\x06\x66ields\x18\t \x03(\x0b\x32\x19.moderation.output.Fields\"\xfb\x01\n\x06\x46ields\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\nfield_name\x18\x02 \x01(\t\x12\x11\n\tnew_value\x18\x03 \x01(\t\x12\x11\n\told_value\x18\x04 \x01(\t\x12\x11\n\tparent_id\x18\x05 \x01(\x05\x12\x18\n\x10group_field_name\x18\x06 \x01(\t\x12\x12\n\nlist_value\x18\x07 \x03(\t\x12.\n\tmeta_info\x18\x08 \x03(\x0b\x32\x1b.moderation.output.MetaInfo\x12\x13\n\x0b\x65\x64ited_data\x18\t \x01(\t\x12\x0e\n\x06status\x18\n \x01(\t\x12\x15\n\rreject_reason\x18\x0b \x03(\t\"&\n\x08MetaInfo\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\tb\x06proto3')
 )
 
 
 
 
-_DATANODE = _descriptor.Descriptor(
-  name='DataNode',
-  full_name='DataNode',
+_OUTPUTDATANODE = _descriptor.Descriptor(
+  name='OutputDataNode',
+  full_name='moderation.output.OutputDataNode',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='entity_id', full_name='DataNode.entity_id', index=0,
+      name='entity_id', full_name='moderation.output.OutputDataNode.entity_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='unique_id', full_name='DataNode.unique_id', index=1,
+      name='unique_id', full_name='moderation.output.OutputDataNode.unique_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='object_id', full_name='DataNode.object_id', index=2,
+      name='object_id', full_name='moderation.output.OutputDataNode.object_id', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='current_status', full_name='DataNode.current_status', index=3,
+      name='current_status', full_name='moderation.output.OutputDataNode.current_status', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='moderation_status', full_name='DataNode.moderation_status', index=4,
+      name='moderation_status', full_name='moderation.output.OutputDataNode.moderation_status', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='moderated_by', full_name='DataNode.moderated_by', index=5,
+      name='moderated_by', full_name='moderation.output.OutputDataNode.moderated_by', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='moderated_by_id', full_name='DataNode.moderated_by_id', index=6,
+      name='moderated_by_id', full_name='moderation.output.OutputDataNode.moderated_by_id', index=6,
       number=7, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='moderated_time', full_name='DataNode.moderated_time', index=7,
+      name='moderated_time', full_name='moderation.output.OutputDataNode.moderated_time', index=7,
       number=8, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='reject_reason', full_name='DataNode.reject_reason', index=8,
+      name='reject_reason', full_name='moderation.output.OutputDataNode.reject_reason', index=8,
       number=10, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='fields', full_name='DataNode.fields', index=9,
+      name='fields', full_name='moderation.output.OutputDataNode.fields', index=9,
       number=9, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -114,90 +114,90 @@ _DATANODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=35,
-  serialized_end=272,
+  serialized_start=54,
+  serialized_end=315,
 )
 
 
 _FIELDS = _descriptor.Descriptor(
   name='Fields',
-  full_name='Fields',
+  full_name='moderation.output.Fields',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='Fields.id', index=0,
+      name='id', full_name='moderation.output.Fields.id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='field_name', full_name='Fields.field_name', index=1,
+      name='field_name', full_name='moderation.output.Fields.field_name', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='new_value', full_name='Fields.new_value', index=2,
+      name='new_value', full_name='moderation.output.Fields.new_value', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='old_value', full_name='Fields.old_value', index=3,
+      name='old_value', full_name='moderation.output.Fields.old_value', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='parent_id', full_name='Fields.parent_id', index=4,
+      name='parent_id', full_name='moderation.output.Fields.parent_id', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='group_field_name', full_name='Fields.group_field_name', index=5,
+      name='group_field_name', full_name='moderation.output.Fields.group_field_name', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='list_value', full_name='Fields.list_value', index=6,
+      name='list_value', full_name='moderation.output.Fields.list_value', index=6,
       number=7, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='meta_info', full_name='Fields.meta_info', index=7,
+      name='meta_info', full_name='moderation.output.Fields.meta_info', index=7,
       number=8, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='edited_data', full_name='Fields.edited_data', index=8,
+      name='edited_data', full_name='moderation.output.Fields.edited_data', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='Fields.status', index=9,
+      name='status', full_name='moderation.output.Fields.status', index=9,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='reject_reason', full_name='Fields.reject_reason', index=10,
+      name='reject_reason', full_name='moderation.output.Fields.reject_reason', index=10,
       number=11, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -215,27 +215,27 @@ _FIELDS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=275,
-  serialized_end=508,
+  serialized_start=318,
+  serialized_end=569,
 )
 
 
 _METAINFO = _descriptor.Descriptor(
   name='MetaInfo',
-  full_name='MetaInfo',
+  full_name='moderation.output.MetaInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='MetaInfo.key', index=0,
+      name='key', full_name='moderation.output.MetaInfo.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value', full_name='MetaInfo.value', index=1,
+      name='value', full_name='moderation.output.MetaInfo.value', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -253,35 +253,35 @@ _METAINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=510,
-  serialized_end=548,
+  serialized_start=571,
+  serialized_end=609,
 )
 
-_DATANODE.fields_by_name['fields'].message_type = _FIELDS
+_OUTPUTDATANODE.fields_by_name['fields'].message_type = _FIELDS
 _FIELDS.fields_by_name['meta_info'].message_type = _METAINFO
-DESCRIPTOR.message_types_by_name['DataNode'] = _DATANODE
+DESCRIPTOR.message_types_by_name['OutputDataNode'] = _OUTPUTDATANODE
 DESCRIPTOR.message_types_by_name['Fields'] = _FIELDS
 DESCRIPTOR.message_types_by_name['MetaInfo'] = _METAINFO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-DataNode = _reflection.GeneratedProtocolMessageType('DataNode', (_message.Message,), dict(
-  DESCRIPTOR = _DATANODE,
+OutputDataNode = _reflection.GeneratedProtocolMessageType('OutputDataNode', (_message.Message,), dict(
+  DESCRIPTOR = _OUTPUTDATANODE,
   __module__ = 'moderation_output_packet_pb2'
-  # @@protoc_insertion_point(class_scope:DataNode)
+  # @@protoc_insertion_point(class_scope:moderation.output.OutputDataNode)
   ))
-_sym_db.RegisterMessage(DataNode)
+_sym_db.RegisterMessage(OutputDataNode)
 
 Fields = _reflection.GeneratedProtocolMessageType('Fields', (_message.Message,), dict(
   DESCRIPTOR = _FIELDS,
   __module__ = 'moderation_output_packet_pb2'
-  # @@protoc_insertion_point(class_scope:Fields)
+  # @@protoc_insertion_point(class_scope:moderation.output.Fields)
   ))
 _sym_db.RegisterMessage(Fields)
 
 MetaInfo = _reflection.GeneratedProtocolMessageType('MetaInfo', (_message.Message,), dict(
   DESCRIPTOR = _METAINFO,
   __module__ = 'moderation_output_packet_pb2'
-  # @@protoc_insertion_point(class_scope:MetaInfo)
+  # @@protoc_insertion_point(class_scope:moderation.output.MetaInfo)
   ))
 _sym_db.RegisterMessage(MetaInfo)
 

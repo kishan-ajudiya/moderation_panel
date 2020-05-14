@@ -1,0 +1,28 @@
+{
+  "api.version": "v1",
+  "sources": [
+    {
+      "name": "moderation-pp-app",
+      "category": "pp/eks/moderation/app",
+      "automaticDateParsing": true,
+      "multilineProcessingEnabled": true,
+      "useAutolineMatching": true,
+      "timeZone": "Asia/Kolkata",
+      "forceTimeZone": true,
+      "filters": [
+       {
+          "filterType": "Include",
+          "name": "moderationapp",
+          "regexp": "(?s).*do-not-send.*(?s)"
+        }
+      ],
+      "cutoffTimestamp": 1548700200000,
+      "encoding": "UTF-8",
+      "pathExpression": "",
+      "blacklist": [
+
+      ],
+      "sourceType": "LocalFile"
+    }
+  ]
+}

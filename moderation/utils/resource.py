@@ -1,6 +1,8 @@
+import json
+import logging
 from datetime import datetime
 
-import logging
+from django.core.paginator import Paginator
 
 from moderation.models import ModerationConfig, DataStore
 from moderation.produce_data import product_data_to_kafka
@@ -17,7 +19,6 @@ def is_in_multiple_groups(user, group_list):
 def make_attribute_config(config):
     config_dict = {}
     try:
-
         for conf in config:
             config_dict[conf["attribute_name"]] = conf
     except Exception as e:
@@ -47,7 +48,7 @@ def get_all_active_entity(user, entity_id=''):
                     "entity_name": entity.get("entity_name", ''),
                     "active": False,
                     "list_view": entity.get("view", {}).get('list_view', []),
-                    "filter_attribute": entity.get("filter_attributes", ''),
+                    "filter_attributes": entity.get("filter_attributes", []),
                     "attribute_config": make_attribute_config(entity.get("attribute_config", []))
                 }
                 if entity_id == str(entity.get("entity_id", '')):
@@ -65,15 +66,34 @@ def get_all_active_entity(user, entity_id=''):
     return status, resp
 
 
-def get_entity_table_data(active_entity_id):
+def get_entity_table_data(active_entity_id, filter_params=None):
     resp = {
         "pending_packets": [],
         "moderated_packets": []
     }
     status = False
     try:
-        logger.info("get_entity_table_data for tab id " + str(active_entity_id))
-        data_packets = DataStore.objects.filter(entity=active_entity_id)
+        logger.info("get_entity_table_data  for tab id " + str(active_entity_id))
+        if filter_params is None:
+            filter_params = {}
+        from_date = filter_params.pop('from_date', '')
+        to_date = filter_params.pop('to_date', '')
+        row_query = {}
+        if from_date and to_date:
+            row_query["created"] = {
+                "$gte": datetime.strptime(from_date, '%Y-%m-%d'),
+                "$lte": datetime.strptime(to_date, '%Y-%m-%d')
+            }
+
+        for ele in filter_params:
+            if filter_params.get(ele):
+                query_key = "entity_data.input_data." + ele + ".new_value"
+                row_query[query_key] = {"$regex": ".*" + filter_params.get(ele, '') + ".*"}
+        if row_query:
+            row_query['entity'] = active_entity_id
+            data_packets = DataStore.objects.filter(__raw__=row_query).order_by('-created')
+        else:
+            data_packets = DataStore.objects.filter(entity=active_entity_id).order_by('-created')
         data_packets_data = DataStoreSerializer(data_packets, many=True).data
         for packet in data_packets_data:
             packet_dict = {
@@ -83,6 +103,9 @@ def get_entity_table_data(active_entity_id):
                 "user_assigned": packet.get('user_assigned', ''),
                 "current_status": {
                     "new_value": packet.get('current_status', '')
+                },
+                "created": {
+                    "new_value": packet.get('created', '')
                 }
             }
             packet_dict.update(packet.get('entity_data', {}).get('input_data', {}))
@@ -95,6 +118,37 @@ def get_entity_table_data(active_entity_id):
         logger.info("Entity table data fetched " + str(active_entity_id))
     except Exception as e:
         msg = "Error While Fetching entity data."
+        logger.critical(msg + " " + repr(e))
+    return status, resp
+
+
+def get_list_view_context(entity_id, pending_page, moderated_page, user, filter_params=None):
+    resp = {}
+    status = False
+    try:
+        stat, entity_data = get_all_active_entity(user, entity_id)
+        active_entity_id = entity_data.get('active_entity', {}).get("entity_id", '')
+        stat, table_data = get_entity_table_data(active_entity_id, filter_params)
+        context = {
+            "nav_bar": entity_data.get('entity_data', []),
+            "active_entity": entity_data.get('active_entity', {})
+        }
+
+        active_tab = 'moderated' if moderated_page else 'pending'
+        context['active_tab'] = active_tab
+        pending_paginator = Paginator(table_data.get('pending_packets', []), 20)
+        pending_page_number = pending_page if pending_page else 1
+        pending_page_obj = pending_paginator.get_page(pending_page_number)
+        context["pending_page_obj"] = pending_page_obj
+
+        moderated_paginator = Paginator(table_data.get('moderated_packets', []), 20)
+        moderated_page_number = moderated_page if moderated_page else 1
+        moderated_page_obj = moderated_paginator.get_page(moderated_page_number)
+        context["moderated_page_obj"] = moderated_page_obj
+        resp = context
+        status = True
+    except Exception as e:
+        msg = "Error While Fetching get_list_view_context."
         logger.critical(msg + " " + repr(e))
     return status, resp
 
@@ -121,7 +175,12 @@ def get_detail_entity_view_data(unique_id):
             "entity_object_id": data_packet_data.get('entity_object_id', ''),
             "current_status": {
                 "new_value": data_packet_data.get('current_status', '')
-            }
+            },
+            "created": {
+                "new_value": data_packet_data.get('created', '')
+            },
+            "selected_reject_reason": data_packet_data.get('reject_reason', []),
+            "moderation_status": data_packet_data.get('moderation_status', [])
         }
         packet_dict.update(data_packet_data.get('entity_data', {}).get('input_data', {}))
         resp['field_value'] = packet_dict
@@ -139,14 +198,16 @@ def assign_revoke_user_to_packet(unique_id, user_assignment, username):
         logger.info("assign_revoke_user_to_packet for unique id and user id " + str(unique_id)
                     + " and " + str(username))
         data_packet = DataStore.objects.get(unique_id=unique_id)
+        if data_packet.user_assigned and data_packet.user_assigned != username:
+            return False, "You can not assign already assigned packet"
+
         if user_assignment:
             data_packet.user_assigned = username
             msg = "User Assigned Successfully."
-        elif data_packet.user_assigned == username:
+        else:
             data_packet.user_assigned = ''
             msg = "User Revoked Successfully."
-        else:
-            msg = "User is not same.."
+
         data_packet.save()
         status = True
         logger.info("user assigned for unique id and user id " + str(unique_id)
@@ -166,10 +227,12 @@ def save_moderated_data(data, user):
             return False, "Packet id is not present."
         data_packet = DataStore.objects.get(unique_id=unique_id)
         data_packet_data = DataStoreSerializer(data_packet).data
+        if data_packet_data.get('user_assigned', '') and data_packet_data.get('user_assigned', '') != user.username:
+            return False, "Data Packet is not assigned to you."
         output_data_packet = {
             "entity_id": data_packet.entity.id,
             "unique_id": data_packet_data.get("unique_id", None),
-            "object_id": data_packet_data.get("object_id", None),
+            "object_id": data_packet_data.get("entity_object_id", None),
             "current_status": data_packet_data.get("current_status", None),
             "moderation_status": data.get("action", None),
             "moderated_by": user.username,
@@ -177,7 +240,9 @@ def save_moderated_data(data, user):
             "reject_reason": data.get("reject_reason", []),
         }
         data_packet.is_moderation_done = True
+        data_packet.user_assigned = output_data_packet.get("moderated_by", None)
         data_packet.moderation_status = output_data_packet.get("moderation_status", None)
+        data_packet.reject_reason = output_data_packet.get("reject_reason", [])
         data_packet.moderated_time = datetime.now()
         data_packet.save()
         product_data_to_kafka(str(data_packet_data.get("unique_id")), output_data_packet)
@@ -187,3 +252,39 @@ def save_moderated_data(data, user):
         msg = "Error While saving response to data packet."
         logger.critical(msg + " " + repr(e))
     return status, msg
+
+
+def get_entity_user_report(entity_id, from_date, to_date):
+    status = False
+    resp = []
+    try:
+        row_query = {
+            "entity": int(entity_id)
+        }
+        if from_date and to_date:
+            row_query["created"] = {
+                "$gte": datetime.strptime(from_date, '%Y-%m-%d'),
+                "$lte": datetime.strptime(to_date, '%Y-%m-%d')
+            }
+        data_packets = DataStore.objects.only("entity", "unique_id", "user_assigned", "moderation_status",
+                                              "is_moderation_done", "reject_reason", "created"). \
+            filter(__raw__=row_query).order_by('-created')
+        data_packet_data = DataStoreSerializer(data_packets, many=True).data
+        row_data = [
+            ["id", "unique_id", "user_assigned", "moderation_status", "is_moderation_done", "reject_reason", "created"]]
+        for data_packet in data_packet_data:
+            row_data.append([
+                data_packet.get('id'),
+                data_packet.get('unique_id'),
+                data_packet.get('user_assigned'),
+                data_packet.get('moderation_status'),
+                data_packet.get('is_moderation_done'),
+                json.dumps(data_packet.get('reject_reason')),
+                data_packet.get('created')
+            ])
+        resp = row_data
+        status = True
+    except Exception as e:
+        msg = "Error While Fetching get_list_view_context."
+        logger.critical(msg + " " + repr(e))
+    return status, resp

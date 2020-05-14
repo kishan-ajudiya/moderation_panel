@@ -1,0 +1,122 @@
+{
+  "api.version": "v1",
+  "sources": [
+    {
+      "name": "moderation-prod-nginx-access",
+      "category": "prod/eks/moderation/nginx/access",
+      "automaticDateParsing": true,
+      "multilineProcessingEnabled": true,
+      "useAutolineMatching": true,
+      "timeZone": "Asia/Kolkata",
+      "forceTimeZone": true,
+      "filters": [
+        {
+          "filterType": "Include",
+          "name": "nginxaccess",
+          "regexp": "(?s).*nginx-access.*(?s)"
+        },
+        {
+          "filterType": "Exclude",
+          "name": "elb-healthcheck",
+          "regexp": "(?s).*ELB-HealthChecker.*(?s)"
+        },
+        {
+          "filterType": "Exclude",
+          "name": "eks-healthcheck",
+          "regexp": ".*kube-probe.*"
+        }
+      ],
+      "cutoffTimestamp": 1548700200000,
+      "encoding": "UTF-8",
+      "pathExpression": "",
+      "blacklist": [
+
+      ],
+      "sourceType": "LocalFile"
+    },
+    {
+      "name": "moderation-prod-common",
+      "category": "prod/eks/moderation/common",
+      "automaticDateParsing": true,
+      "multilineProcessingEnabled": true,
+      "useAutolineMatching": true,
+      "timeZone": "Asia/Kolkata",
+      "forceTimeZone": true,
+      "filters": [
+       {
+          "filterType": "Exclude",
+          "name": "nginxaccess",
+          "regexp": "(?s).*nginx-access.*(?s)"
+        },
+       {
+          "filterType": "Exclude",
+          "name": "moderationapp",
+          "regexp": "(?s).*ModerationApp.*(?s)"
+        },
+	{
+          "filterType": "Exclude",
+          "name": "uwsgilog",
+          "regexp": "(?s).*uwsgiapp.*(?s)"
+        }
+      ],
+      "cutoffTimestamp": 1548700200000,
+      "encoding": "UTF-8",
+      "pathExpression": "",
+      "blacklist": [
+
+      ],
+      "sourceType": "LocalFile"
+    },
+    {
+      "name": "moderation-prod-uwsgi",
+      "category": "prod/eks/moderation/uwsgi",
+      "automaticDateParsing": true,
+      "multilineProcessingEnabled": true,
+      "useAutolineMatching": true,
+      "timeZone": "Asia/Kolkata",
+      "forceTimeZone": true,
+      "filters": [
+	{
+          "filterType": "Include",
+          "name": "uwsgilog",
+          "regexp": "(?s).*uwsgiapp.*(?s)"
+        },
+	{
+          "filterType": "Exclude",
+          "name": "uwsgipinglog",
+          "regexp": "(?s).*ping.*(?s)"
+        }
+      ],
+      "cutoffTimestamp": 1548700200000,
+      "encoding": "UTF-8",
+      "pathExpression": "",
+      "blacklist": [
+
+      ],
+      "sourceType": "LocalFile"
+    },
+    {
+      "name": "moderation-prod-app",
+      "category": "prod/eks/moderation/app",
+      "automaticDateParsing": true,
+      "multilineProcessingEnabled": true,
+      "useAutolineMatching": true,
+      "timeZone": "Asia/Kolkata",
+      "forceTimeZone": true,
+      "filters": [
+        {
+          "filterType": "Include",
+          "name": "moderationapp",
+          "regexp": "(?s).*ModerationApp.*(?s)"
+        }
+      ],
+      "cutoffTimestamp": 1548700200000,
+      "encoding": "UTF-8",
+      "pathExpression": "",
+      "blacklist": [
+
+      ],
+      "sourceType": "LocalFile"
+    }
+  ]
+}

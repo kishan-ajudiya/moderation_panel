@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
 
     'moderation'
@@ -53,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 SESSION_COOKIE_NAME = "moderation-session"
 ROOT_URLCONF = 'moderation_panel.urls'
 
@@ -91,9 +92,9 @@ DATABASES = {
     }
 }
 
-LOGIN_URL = '/admin/login'
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/moderation/list'
-LOGOUT_REDIRECT_URL = '/moderation/list'
+LOGOUT_REDIRECT_URL = '/login'
 
 MONGODB_DATABASES = {
     "default": {

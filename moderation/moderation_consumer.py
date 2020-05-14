@@ -7,7 +7,7 @@ from kafka import KafkaConsumer
 from moderation.models import DataStore
 from moderation.parsers.input_parser import parse_dict
 from moderation.proto_helper import convert_proto_message_to_dict
-from proto_files.compiled.moderation_input_packet_pb2 import DataNode as InputDataNode
+from proto_files.compiled.moderation_input_packet_pb2 import InputDataNode
 
 logger = logging.getLogger('moderationLogger')
 

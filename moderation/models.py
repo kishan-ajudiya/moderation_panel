@@ -76,11 +76,11 @@ class DataPacket(EmbeddedDocument):
 class DataStore(MongoDocument):
     entity = LazyReferenceField(ModerationConfig, reverse_delete_rule=1)
     user_assigned = StringField(null=True)
-    unique_id = UUIDField(unique=True)
+    unique_id = UUIDField(unique=True, binary=False)
     entity_object_id = IntField(null=True)
     current_status = StringField(null=True)
     entity_data = EmbeddedDocumentField(DataPacket)
-    moderation_status = StringField(null=True)
+    moderation_status = StringField(null=True, default="pending")
     moderation_time = DateTimeField(null=True)
     reject_reason = ListField()
     is_moderation_done = BooleanField(default=False)

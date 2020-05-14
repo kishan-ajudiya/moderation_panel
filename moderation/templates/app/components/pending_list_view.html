@@ -1,30 +1,31 @@
 {% load general_tags %}
-<table class="table table-bordered" id="data-list-table-pending">
-    <thead class="thead-dark">
+<table class="table table-bordered table-hover" id="data-list-table-pending" style="table-layout: fixed; width: 100%">
+    <thead class="table-primary">
     <tr>
         {% for column in active_entity.list_view %}
-        <th class="text-center" scope="col">
+        <th class="text-center table-data-layout" scope="col">
             {% if active_entity.attribute_config|hash:column and active_entity.attribute_config|hash:column|hash:"label" %}
             {{ active_entity.attribute_config|hash:column|hash:"label" }}
             {% else %}
             -
             {% endif %}
-            <i class="fa fa-fw fa-sort"></i>
+<!--            <i class="fa fa-fw fa-sort"></i>-->
         </th>
         {% endfor %}
-        <th class="text-center" scope="col">Details</th>
-        <th class="text-center" scope="col">User Assigned</th>
+        <th class="text-center table-data-layout" scope="col">Details</th>
+        <th class="text-center table-data-layout" scope="col">User Assigned</th>
     </tr>
     </thead>
     <tbody>
     {% for row_data in page_obj %}
     <tr class="table-light text-center">
         {% for column in active_entity.list_view %}
-        <td>
+       <td class="text-center table-data-layout">
             {% if active_entity.attribute_config|hash:column|hash:"view_type" == "video" %}
             <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="{{ row_data|hash:column|hash:'new_value' }}?autoplay=0"
-                        allowfullscreen ></iframe>
+                <video class="embed-responsive-item" controls>
+                 <source src="{{ row_data|hash:column|hash:'new_value' }}">
+                </video>
             </div>
             {% else %}
             {% if row_data|hash:column and row_data|hash:column|hash:"new_value" %}
@@ -35,19 +36,40 @@
             {% endif %}
         </td>
         {% endfor %}
-        <td class="text-center">
-            <button class="btn btn-outline-info">
+        <td class="text-center table-data-layout">
+            <button class="btn btn-outline-success">
                 <a href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}">
                     Go to Details
                 </a>
             </button>
         </td>
-        <td class="text-center">
-            <input type="checkbox" data-toggle="toggle" data-onstyle="outline-info"
-                   data-offstyle="outline-light" data-on="Assign" data-off="Assigned"
-                   id="{{ row_data|hash:'unique_id' }}"
-                   onchange="user_assign(this);" data-unique_id="{{ row_data|hash:'unique_id' }}"
-                   {% if row_data|hash:'user_assigned' != request.user.username %} checked {% endif %} >
+        <td class="text-center table-data-layout">
+            <div class="checkbox {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}">
+                {% if row_data|hash:'user_assigned' %}
+                    {% if row_data|hash:'user_assigned' == request.user.username %}
+                <h5>
+                    <span class="badge badge-success">{{ row_data|hash:'user_assigned' }}</span>
+                    <span class="badge badge-light">
+                        <a href="">
+                            <i data-unique_id="{{ row_data|hash:'unique_id' }}" onclick="user_assign(this);" class="fa fa-minus-square"></i>
+                        </a>
+                    </span>
+                </h5>
+                    {% endif %}
+                    {% if row_data|hash:'user_assigned' != request.user.username %}
+<!--                        <i class="fas fa-users"></i>-->
+                <h5><span class="badge badge-primary">{{ row_data|hash:'user_assigned' }}</span></h5>
+                    {% endif %}
+                {% else %}
+                    <input type="checkbox" data-toggle="toggle" data-onstyle="outline-info"
+                           data-offstyle="outline-light" data-on="Assign" data-off="Assigned"
+                           id="{{ row_data|hash:'unique_id' }}"
+                           onchange="user_assign(this);" data-unique_id="{{ row_data|hash:'unique_id' }}"
+                           {% if not row_data|hash:'user_assigned' %} checked {% endif %}
+                           {% if row_data|hash:'user_assigned' and row_data|hash:'user_assigned' != request.user.username %} disabled {% endif %}
+                    >
+                {% endif %}
+            </div>
         </td>
     </tr>
     {% endfor %}
@@ -64,12 +86,12 @@
             {% if page_obj.has_previous %}
             <li class="paginate_button page-item previous "
                 data-ol-has-click-handler="">
-                <a href='?pending_page=1' aria-controls="example" data-dt-idx="0"
+                <a href='{{ request.path }}?entity_id={{ active_entity.entity_id }}&pending_page=1' aria-controls="example" data-dt-idx="0"
                    tabindex="0" class="page-link">First</a>
             </li>
             <li class="paginate_button page-item previous "
                 data-ol-has-click-handler="">
-                <a href='?pending_page={{ page_obj.previous_page_number }}' aria-controls="example" data-dt-idx="0"
+                <a href='{{ request.path }}?entity_id={{ active_entity.entity_id }}&pending_page={{ page_obj.previous_page_number }}' aria-controls="example" data-dt-idx="0"
                    tabindex="0" class="page-link">&laquo;</a>
             </li>
             {% endif %}
@@ -77,17 +99,17 @@
             {% if pg > page_obj.number|add:-2 and pg < page_obj.number|add:2 %}
             <li class="paginate_button page-item previous {% if page_obj.number == pg %} active {% endif %}" id="example_previous"
                 data-ol-has-click-handler="">
-                <a href='?pending_page={{pg}}' aria-controls="example" data-dt-idx="0"
+                <a href='{{ request.path }}?entity_id={{ active_entity.entity_id }}&pending_page={{pg}}' aria-controls="example" data-dt-idx="0"
                    tabindex="0" class="page-link">{{pg}}</a>
             </li>
             {% endif %}
             {% endfor %}
             {% if page_obj.has_next %}
             <li class="paginate_button page-item next "
-                data-ol-has-click-handler=""><a href="?pending_page={{ page_obj.next_page_number }}" aria-controls="example" data-dt-idx="2"
+                data-ol-has-click-handler=""><a href="{{ request.path }}?entity_id={{ active_entity.entity_id }}&pending_page={{ page_obj.next_page_number }}" aria-controls="example" data-dt-idx="2"
                                                 tabindex="0" class="page-link">&raquo;</a></li>
             <li class="paginate_button page-item next "
-                data-ol-has-click-handler=""><a href="?pending_page={{ page_obj.paginator.num_pages }}" aria-controls="example" data-dt-idx="2"
+                data-ol-has-click-handler=""><a href="{{ request.path }}?entity_id={{ active_entity.entity_id }}&pending_page={{ page_obj.paginator.num_pages }}" aria-controls="example" data-dt-idx="2"
                                                 tabindex="0" class="page-link">last</a></li>
             {% endif %}
         </ul>

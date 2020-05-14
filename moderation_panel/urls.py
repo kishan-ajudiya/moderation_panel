@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
@@ -42,6 +43,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('ping/', HealthCheck.as_view()),
     path('', HomeView.as_view()),
+    url(r"^login", LoginView.as_view(template_name='login.html'), name="login"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('moderation/', include('moderation.urls')),

@@ -8,20 +8,24 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#data-list-table-pending').DataTable({
-                dom: '<"top"f>rt<"bottom"><"clear">',
-                ordering: true,
-                paging: false,
-                info: false
-            }
-        );
-        $('#data-list-table-moderated').DataTable({
-                dom: '<"top"f>rt<"bottom"><"clear">',
-                ordering: true,
-                paging: false,
-                info: false
-            }
-        );
+<!--        $('#data-list-table-pending').DataTable({-->
+<!--                dom: '<"top"f>rt<"bottom"><"clear">',-->
+<!--                ordering: true,-->
+<!--                paging: false,-->
+<!--                info: false,-->
+<!--                searching: false,-->
+<!--                responsive: true-->
+<!--            }-->
+<!--        );-->
+<!--        $('#data-list-table-moderated').DataTable({-->
+<!--                dom: '<"top"f>rt<"bottom"><"clear">',-->
+<!--                ordering: true,-->
+<!--                paging: false,-->
+<!--                info: false,-->
+<!--                searching: false,-->
+<!--                responsive: true-->
+<!--            }-->
+<!--        );-->
     });
 
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -38,6 +42,16 @@
             }
         }
     });
+
+    function toggle_reject_reason(obj) {
+        var selected_action = $(obj).val();
+        if(selected_action === 'reject'){
+            $('#reject_reason_div').show();
+        }
+        else{
+            $('#reject_reason_div').hide();
+        }
+    }
 
     function user_assign(obj) {
         var unique_id = $(obj).data("unique_id");
@@ -60,13 +74,14 @@
             contentType: 'application/json',
             success: function (data) {
                 if (data.message) {
-                    alert(data.message);
+                    show_alert(data.message, "success");
                 }
+                location.reload();
             },
             error: function (xhr, status, error) {
                 var data = xhr.responseJSON;
                 if (data.message) {
-                    alert(data.message);
+                    show_alert(data.message, "danger");
                 }
             },
         });

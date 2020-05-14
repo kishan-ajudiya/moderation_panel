@@ -1,6 +1,8 @@
 <div class="navbar navbar-expand-lg navbar-dark bg-primary">
-
-    <a class="navbar-brand" data-ol-has-click-handler="" href="#">Moderation Panel</a>
+    <a class="navbar-brand" data-ol-has-click-handler="" href="/moderation/list">
+        <img src="/static/icon-1.png" alt="">
+        Moderation Panel
+    </a>
     <button aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler"
             data-target="#navbarColor03" data-toggle="collapse" type="button">
@@ -16,28 +18,40 @@
             </li>
             {% endfor %}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <div id="user-tools">
-                {% block welcome-msg %}
-                <strong class="text-white">Welcome, {% firstof user.get_short_name user.get_username %}</strong>.
-                {% endblock %}
-                {% block userlinks %}
-                {% if site_url %}
-                <a href="{{ site_url }}">View site</a> /
-                {% endif %}
-                {% if user.is_active and user.is_staff %}
-                {% url 'django-admindocs-docroot' as docsroot %}
-                {% if docsroot %}
-                <a href="{{ docsroot }}">Documentation</a> /
-                {% endif %}
-                {% endif %}
-                {% if user.has_usable_password %}
-                <a href="{% url 'admin:password_change' %}">Change password</a> /
-                {% endif %}
-                <a href="{% url 'admin:logout' %}">Log out</a>
-                {% endblock %}
-            </div>
-        </form>
+        <ul class="navbar-nav ml-md-auto">
+            <form class="form-inline my-2 my-lg-0">
+                <div id="user-tools">
+                    {% block welcome-msg %}
+                    <strong class="text-white">Welcome, {% firstof user.get_short_name user.get_username %}</strong>.
+                    {% endblock %}
+                </div>
+            </form>
+            <li class="nav-item dropdown show">
+                <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="mp-others" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="true">
+                    Others
+                </a>
+                <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="mp-others">
+                    <a class="dropdown-item" href="/moderation/report">Reports</a>
+                    {% block userlinks %}
+                    {% if site_url %}
+                    <a class="dropdown-item" href="{{ site_url }}">View site</a> /
+                    {% endif %}
+                    {% if user.is_active and user.is_staff %}
+                    {% url 'django-admindocs-docroot' as docsroot %}
+                    {% if docsroot %}
+                    <a class="dropdown-item" href="{{ docsroot }}">Documentation</a> /
+                    {% endif %}
+                    {% endif %}
+                    {% if user.has_usable_password %}
+                    <a class="dropdown-item" href="{% url 'admin:password_change' %}">Change password</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url 'admin:logout' %}">Log out</a>
+                    {% endblock %}
+                </div>
+            </li>
+        </ul>
+
     </div>
 </div>
 

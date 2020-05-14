@@ -7,12 +7,20 @@
 </head>
 <body>
 {% csrf_token %}
+<header class="header">
 {% block nav %}
     {% include "app/navigation.html" %}
 {% endblock nav %}
+</header>
+<main role="main">
+<div id="alert_div">
+</div>
 {% block main %}
 
 {% endblock main %}
+</main>
+<footer class="footer">
+</footer>
 {% block scripts %}
     {% include "app/scripts.html" %}
 {% endblock scripts %}

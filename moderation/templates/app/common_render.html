@@ -1,7 +1,7 @@
 {% load general_tags %}
     {% for attribute in attribute_list %}
         {% if attribute == 'action' %}
-            {% include "app/components/moderation_select.html" %}
+            {% include "app/components/action_select.html" %}
         {% elif  attribute == 'reject_reason' %}
             {% include "app/components/reject_reason_select.html" %}
         {% else %}
