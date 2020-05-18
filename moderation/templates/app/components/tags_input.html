@@ -1,0 +1,14 @@
+{% load general_tags %}
+<div class="form-group {% if not full_width %} col-md-3 {% endif %}">
+    <label for="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}"
+           class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <div class="col-sm-11">
+    <input type="text" class="form-control"
+           {% if field_description|hash:attribute|hash:'editable' %} data-role="tagsinput" {% endif %}"
+           id="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}"
+           name="{{attribute}}{% if parent_id %}.{{parent_id}}{% endif %}{% if id %}.{{id}}{% endif %}.value"
+           value="{% if field_value|hash:attribute and field_value|hash:attribute|hash:'new_value' %}{{ field_value|hash:attribute|hash:'new_value' }}{% endif %}"
+           {% if not field_description|hash:attribute|hash:'editable' %} readonly {% endif %}"
+           >
+    </div>
+</div>

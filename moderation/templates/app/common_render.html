@@ -19,6 +19,8 @@
                 {% include "app/components/select_box.html" %}
             {% elif field_description|hash:attribute|hash:'view_type' == 'video' %}
                 {% include "app/components/video.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'tags' %}
+                {% include "app/components/tags_input.html" %}
             {% endif %}
         {% endif %}
 {% endfor %}
