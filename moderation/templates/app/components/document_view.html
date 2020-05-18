@@ -1,18 +1,21 @@
 {% load general_tags %}
+{% if field_description|hash:attribute|hash:'multiple' %}
+{% for i in field_value|hash:attribute %}
 <div class="form-group col-md-6">
     <div class="card">
         <div class="embed-responsive embed-responsive-16by9">
-            <video class="embed-responsive-item" controls>
-                 <source src="{{ field_value|hash:attribute|hash:'new_value' }}">
-            </video>
+            <embed src="{{ field_value|hash:attribute|hash:i|hash:'new_value' }}#toolbar=1&navpanes=0&scrollbar=1"  width="100%" height="600px" />
         </div>
         <div class="card-body">
-<!--            <h5 class="card-title">Caption</h5>-->
-<!--            <p class="card-text">{{ field_value|hash:'caption'|hash:'new_value' }}</p>-->
-            {% if field_description|hash:attribute|hash:'is_moderable' %}
+            <h5 class="card-title">Caption</h5>
+            <p class="card-text">
+                Demo Caption
+<!--                {{ field_value|hash:'caption'|hash:'new_value' }}-->
+            </p>
+            {% if field_description|hash:attribute|hash:'moderable' %}
             <label for="moderable_{{attribute}}">Accept/Reject</label>
             <div class="form-group">
-                <select class="custom-select" id="moderable_{{attribute}}" name="{{attribute}}.{{i}}.value">
+                <select class="custom-select col-md-3" id="moderable_{{attribute}}" name="{{attribute}}.{{i}}.value">
                     <option selected="">None</option>
                     <option value="1">Accept</option>
                     <option value="2">Reject</option>
@@ -27,3 +30,5 @@
         </div>
     </div>
 </div>
+{% endfor %}
+{% endif %}

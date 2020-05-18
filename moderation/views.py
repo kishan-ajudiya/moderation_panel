@@ -187,7 +187,7 @@ class Config(APIView):
             rep_status = status.HTTP_200_OK
         except NotUniqueError as e:
             response["message"] = "Moderation Config is already exist."
-            logger.error(response["msg"])
+            logger.error(response["message"])
         except Exception as e:
             response["message"] = repr(e)
             logger.error(response["message"])

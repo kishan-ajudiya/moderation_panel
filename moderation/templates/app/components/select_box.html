@@ -1,6 +1,6 @@
 {% load general_tags %}
 <div class="form-group {% if not full_width %} col-md-3 {% endif %}">
-    <label for="{{attribute}}">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <label for="{{attribute}}" class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
     <select class="custom-select" id="{{attribute}}" name="{{attribute}}.value">
         <option selected="">Open this select menu</option>
         <option value="1">One</option>

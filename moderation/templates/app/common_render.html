@@ -21,6 +21,8 @@
                 {% include "app/components/video.html" %}
             {% elif field_description|hash:attribute|hash:'view_type' == 'tags' %}
                 {% include "app/components/tags_input.html" %}
+            {% elif field_description|hash:attribute|hash:'view_type' == 'document' %}
+                {% include "app/components/document_view.html" %}
             {% endif %}
         {% endif %}
 {% endfor %}

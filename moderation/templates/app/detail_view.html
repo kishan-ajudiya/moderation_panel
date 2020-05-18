@@ -4,7 +4,8 @@
 {{ block.super }}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/moderation/list" data-ol-has-click-handler="">Home</a></li>
-    <li class="breadcrumb-item"><a id="entity_breadcrumb" href="/moderation/list?entity_id={{ entity_id }}" data-ol-has-click-handler="">{{ entity_name }}</a></li>
+    <li class="breadcrumb-item"><a id="entity_breadcrumb" href="/moderation/list?entity_id={{ entity_id }}"
+                                   data-ol-has-click-handler="">{{ entity_name }}</a></li>
     <li class="breadcrumb-item active">Data</li>
 </ol>
 <form action="/moderation/collect-detail/" enctype="multipart/form-data" id="detail-form" method="post"
@@ -14,20 +15,28 @@
         {% for raw in detail_view %}
         <div class="card">
             <div class="card-header" id="headingOne">
-                <h5 class="mb-0 align-content-end">
-                    <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
-                            data-target="#collapseOne"
-                            data-toggle="collapse" type="button">
-                        {{ raw.0 }}
-                    </button>
-                </h5>
+                <div class="row">
+                    <div class="col-md-5 align-content-end">
+                        <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
+                                data-target="#collapseOne"
+                                data-toggle="collapse" type="button">
+                            {{ raw.0 }}
+                        </button>
+                    </div>
+                    {% if raw.1.help_text %}
+                    <div class="col-md-7 mb-0 text-right">
+                        <label>Help Text :</label>
+                        <small id="emailHelp" class="text-muted">{{raw.1.help_text}}</small>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
 
             <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionExample" id="collapseOne">
                 <div class="card-body">
                     <div class="form-row">
                         {% with attribute_list=raw.1.fields full_width=False parent_id=False id=False %}
-                            {% include "app/common_render.html" %}
+                        {% include "app/common_render.html" %}
                         {% endwith %}
                     </div>
                 </div>
