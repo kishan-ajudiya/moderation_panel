@@ -244,7 +244,7 @@ def save_moderated_data(data, user):
         data_packet.user_assigned = output_data_packet.get("moderated_by", None)
         data_packet.moderation_status = output_data_packet.get("moderation_status", None)
         data_packet.reject_reason = output_data_packet.get("reject_reason", [])
-        data_packet.moderated_time = datetime.now()
+        data_packet.moderated_time = datetime.datetime.now()
         data_packet.save()
         product_data_to_kafka(str(data_packet_data.get("unique_id")), output_data_packet)
         status = True
@@ -264,8 +264,8 @@ def get_entity_user_report(entity_id, from_date, to_date):
         }
         if from_date and to_date:
             row_query["created"] = {
-                "$gte": datetime.strptime(from_date, '%Y-%m-%d'),
-                "$lte": datetime.strptime(to_date, '%Y-%m-%d')
+                "$gte": datetime.datetime.strptime(from_date, '%Y-%m-%d'),
+                "$lte": datetime.datetime.strptime(to_date, '%Y-%m-%d') + datetime.timedelta(days=1)
             }
         data_packets = DataStore.objects.only("entity", "unique_id", "user_assigned", "moderation_status",
                                               "is_moderation_done", "reject_reason", "created"). \

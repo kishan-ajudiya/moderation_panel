@@ -18,7 +18,7 @@
                         {% endwith %}
                     {% endif %}
                     {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
-                        {% with attribute_list=field_description|hash:attribute|hash:'child_attr' full_width=True %}
+                        {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id full_width=True %}
                             {% include "app/common_render.html" %}
                         {% endwith %}
                     {% endif %}
