@@ -14,6 +14,7 @@
         {% endfor %}
         <th class="text-center table-data-layout" scope="col">Details</th>
         <th class="text-center table-data-layout" scope="col">Moderated By</th>
+        {% if active_entity.is_remoderable %} <th class="text-center table-data-layout" scope="col">Change Your Mind?</th> {% endif %}
     </tr>
     </thead>
     <tbody>
@@ -46,6 +47,15 @@
         <td class="text-center table-data-layout">
             {{ row_data|hash:'user_assigned' }}
         </td>
+        {% if active_entity.is_remoderable %}
+        <td class="text-center table-data-layout">
+            <button class="btn btn-sm btn-outline-info">
+                <a class="text-info" href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}">
+                    Re-Moderate
+                </a>
+            </button>
+        </td>
+        {% endif %}
     </tr>
     {% endfor %}
     </tbody>

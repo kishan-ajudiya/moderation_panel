@@ -1,12 +1,11 @@
 {% load general_tags %}
-{% if field_description|hash:attribute|hash:'multiple' %}
-<div class="card-deck">
-    {% for i in field_value|hash:attribute %}
-            <div class="card" style="width: 18rem;">
-                <img data-enlargable style="cursor: zoom-in; height: 200px; width: 100%; display: block;" data-holder-rendered="true" src="{{ field_value|hash:attribute|hash:i|hash:'new_value' }}" class="card-img-top" alt="" name="{{attribute}}.{{i}}.url">
+<div class="card-deck mx-2">
+    {% for obj_id in context_field_value %}
+            <div class="card border-secondary" style="width: 18rem;">
+                <img data-enlargable style="cursor: zoom-in; height: 230px; width: 100%; display: block;" data-holder-rendered="true" src="{% get_field_value field_value attribute 'new_value' parent_id obj_id %}" class="card-img-top" alt="" name="{{attribute}}.{{i}}.url">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up
+                    <p class="card-text text-secondary">Some quick example text to build on the card title and make up
                         the bulk
                         of the card's content.</p>
                     {% if field_description|hash:attribute|hash:'moderable' %}
@@ -23,4 +22,3 @@
             </div>
     {% endfor %}
 </div>
-{% endif %}

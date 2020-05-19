@@ -51,6 +51,7 @@ class ModerationConfig(MongoDocument):
     attribute_config = EmbeddedDocumentListField(AttributeConfig)
     is_list_moderable = BooleanField(default=False)
     is_active = BooleanField(default=True)
+    is_remoderable = BooleanField(default=False)
 
     def save(
         self,

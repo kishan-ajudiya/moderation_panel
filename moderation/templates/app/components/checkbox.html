@@ -1,8 +1,27 @@
 {% load general_tags %}
+{% for obj_id in context_field_value %}
 <div class="form-group {% if not full_width %} col-md-3 {% endif %}">
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="{{attribute}}" checked="">
-        <label class="custom-control-label" for="{{attribute}}">{{ field_description|hash:attribute|hash:'label'}}
+        <input type="checkbox"
+               class="custom-control-input"
+               id="{% get_field_id attribute parent_id obj_id %}"
+               name="{% get_field_name attribute parent_id obj_id %}"
+               value="{% get_field_value field_value attribute 'new_value' parent_id obj_id %}"
+               checked=""
+        >
+        <label for="{% get_field_id attribute parent_id obj_id %}" class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
         </label>
     </div>
 </div>
+
+
+{% if field_description|hash:attribute|hash:'moderable' %}
+    {% include "app/components/moderation_select.html" %}
+{% endif %}
+
+{% if field_description|hash:attribute|hash:'child_attr' is not None  %}
+    {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id %}
+        {% include "app/common_render.html" %}
+    {% endwith %}
+{% endif %}
+{% endfor %}

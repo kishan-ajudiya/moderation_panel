@@ -1,7 +1,7 @@
 {% load general_tags %}
 <div class="form-group {% if not full_width %} col-md-3 {% endif %}">
     <label for="{{attribute}}" class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
-    <div class="col-sm-10">
+    <div class="col-sm-11">
         <select class="custom-select" id="{{attribute}}" name="{{attribute}}"
                 required
                 {% if field_value.is_moderation_done %} disabled {% endif %}

@@ -1,34 +1,29 @@
 {% load general_tags %}
-{% if field_description|hash:attribute|hash:'multiple' %}
-{% for i in field_value|hash:attribute %}
-<div class="form-group col-md-6">
-    <div class="card">
-        <div class="embed-responsive embed-responsive-16by9">
-            <embed src="{{ field_value|hash:attribute|hash:i|hash:'new_value' }}#toolbar=1&navpanes=0&scrollbar=1"  width="100%" height="600px" />
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Caption</h5>
-            <p class="card-text">
-                Demo Caption
-<!--                {{ field_value|hash:'caption'|hash:'new_value' }}-->
-            </p>
-            {% if field_description|hash:attribute|hash:'moderable' %}
-            <label for="moderable_{{attribute}}">Accept/Reject</label>
-            <div class="form-group">
-                <select class="custom-select col-md-3" id="moderable_{{attribute}}" name="{{attribute}}.{{i}}.value">
-                    <option selected="">None</option>
-                    <option value="1">Accept</option>
-                    <option value="2">Reject</option>
-                </select>
+<div class="card-deck col-md-11">
+    {% for obj_id in context_field_value %}
+        <div class="col-md-6">
+            <div class="card border-secondary">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <embed src="{% get_field_value field_value attribute 'new_value' parent_id obj_id %}#toolbar=1&navpanes=0&scrollbar=1"  width="100%" height="600px" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Caption</h5>
+                    <p class="card-text text-secondary">
+                        Demo Caption
+        <!--                {{ field_value|hash:'caption'|hash:'new_value' }}-->
+                    </p>
+                    {% if field_description|hash:attribute|hash:'moderable' %}
+                        {% with full_width=True %}
+                            {% include "app/components/moderation_select.html" %}
+                        {% endwith %}
+                    {% endif %}
+                    {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
+                        {% with attribute_list=field_description|hash:attribute|hash:'child_attr' full_width=True %}
+                            {% include "app/common_render.html" %}
+                        {% endwith %}
+                    {% endif %}
+                </div>
             </div>
-            {% endif %}
-            {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
-            {% with attribute_list=field_description|hash:attribute|hash:'child_attr' full_width=True %}
-            {% include "app/common_render.html" %}
-            {% endwith %}
-            {% endif %}
         </div>
-    </div>
+    {% endfor %}
 </div>
-{% endfor %}
-{% endif %}

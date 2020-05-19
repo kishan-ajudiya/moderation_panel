@@ -5,24 +5,25 @@
         {% elif  attribute == 'reject_reason' %}
             {% include "app/components/reject_reason_select.html" %}
         {% else %}
-            {% if field_description|hash:attribute|hash:'view_type' == 'text' %}
-                {% include "app/components/text_field.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'text_area' %}
-                {% include "app/components/text_area.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'date' %}
-                {% include "app/components/datetime.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'image' %}
-                {% include "app/components/image.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'multi_select' %}
-                {% include "app/components/multi_select.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'select' %}
-                {% include "app/components/select_box.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'video' %}
-                {% include "app/components/video.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'tags' %}
-                {% include "app/components/tags_input.html" %}
-            {% elif field_description|hash:attribute|hash:'view_type' == 'document' %}
-                {% include "app/components/document_view.html" %}
-            {% endif %}
+            {% get_field_context field_value attribute parent_id field_description|hash:attribute|hash:'multiple' as context_field_value %}
+                {% if field_description|hash:attribute|hash:'view_type' == 'text' %}
+                    {% include "app/components/text_field.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'text_area' %}
+                    {% include "app/components/text_area.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'date' %}
+                    {% include "app/components/datetime.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'image' %}
+                    {% include "app/components/image.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'multi_select' %}
+                    {% include "app/components/multi_select.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'select' %}
+                    {% include "app/components/select_box.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'video' %}
+                    {% include "app/components/video.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'tags' %}
+                    {% include "app/components/tags_input.html" %}
+                {% elif field_description|hash:attribute|hash:'view_type' == 'document' %}
+                    {% include "app/components/document_view.html" %}
+                {% endif %}
         {% endif %}
 {% endfor %}

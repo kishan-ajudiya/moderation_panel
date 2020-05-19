@@ -1,6 +1,6 @@
 import json
 import logging
-from datetime import datetime
+import datetime
 
 from django.core.paginator import Paginator
 
@@ -35,7 +35,7 @@ def get_all_active_entity(user, entity_id=''):
     status = False
     try:
         logger.info("fetching active entity. for user id " + str(user.id))
-        entities = ModerationConfig.objects.only("entity_name", "entity_id", "user_permission", "group",
+        entities = ModerationConfig.objects.only("entity_name", "entity_id", "user_permission", "group", "is_remoderable",
                                                  "filter_attributes", "view__list_view", "attribute_config") \
             .filter(is_active=True)
         entities = ModerationConfigSerializer(entities, many=True).data
@@ -49,7 +49,8 @@ def get_all_active_entity(user, entity_id=''):
                     "active": False,
                     "list_view": entity.get("view", {}).get('list_view', []),
                     "filter_attributes": entity.get("filter_attributes", []),
-                    "attribute_config": make_attribute_config(entity.get("attribute_config", []))
+                    "attribute_config": make_attribute_config(entity.get("attribute_config", [])),
+                    "is_remoderable": entity.get('is_remoderable', False)
                 }
                 if entity_id == str(entity.get("entity_id", '')):
                     tab_data["active"] = True
@@ -81,8 +82,8 @@ def get_entity_table_data(active_entity_id, filter_params=None):
         row_query = {}
         if from_date and to_date:
             row_query["created"] = {
-                "$gte": datetime.strptime(from_date, '%Y-%m-%d'),
-                "$lte": datetime.strptime(to_date, '%Y-%m-%d')
+                "$gte": datetime.datetime.strptime(from_date, '%Y-%m-%d'),
+                "$lte": datetime.datetime.strptime(to_date, '%Y-%m-%d') + datetime.timedelta(days=1)
             }
 
         for ele in filter_params:
