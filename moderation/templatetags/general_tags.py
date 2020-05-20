@@ -46,10 +46,20 @@ def get_moderable_field_name(attribute, parent_id=None, obj_id=None):
 
 
 @register.simple_tag
-def get_field_context(field_value_dict, attribute, parent_id, is_multiple):
+def get_field_context(field_value_dict, attribute, parent_id=None, is_multiple=False):
     context_dict = field_value_dict.get(attribute, {})
     if parent_id:
         context_dict = context_dict.get(parent_id, {})
     if not is_multiple:
         context_dict = {None: context_dict}
     return context_dict
+
+
+@register.simple_tag
+def get_field_label(field_description, attribute, label, parent_label=None, obj_id=None):
+    field_label = field_description.get(attribute, {}).get(label, '')
+    if obj_id:
+        field_label = field_label + " id: " + str(obj_id)
+    if parent_label:
+        field_label = field_label + " for " + str(parent_label)
+    return field_label

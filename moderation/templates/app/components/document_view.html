@@ -1,16 +1,16 @@
 {% load general_tags %}
 <div class="card-deck col-md-11">
     {% for obj_id in context_field_value %}
+        {% get_field_label field_description attribute 'label' parent_label obj_id as field_label %}
         <div class="col-md-6">
             <div class="card border-secondary">
                 <div class="embed-responsive embed-responsive-16by9">
                     <embed src="{% get_field_value field_value attribute 'new_value' parent_id obj_id %}#toolbar=1&navpanes=0&scrollbar=1"  width="100%" height="600px" />
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Caption</h5>
+                    <h5 class="card-title"></h5>
                     <p class="card-text text-secondary">
-                        Demo Caption
-        <!--                {{ field_value|hash:'caption'|hash:'new_value' }}-->
+                        {{ field_label }}
                     </p>
                     {% if field_description|hash:attribute|hash:'moderable' %}
                         {% with full_width=True %}
@@ -18,7 +18,7 @@
                         {% endwith %}
                     {% endif %}
                     {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
-                        {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id full_width=True %}
+                        {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id full_width=True parent_label=field_label %}
                             {% include "app/common_render.html" %}
                         {% endwith %}
                     {% endif %}

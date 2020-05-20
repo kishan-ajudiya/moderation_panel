@@ -35,7 +35,7 @@
             <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionExample" id="collapseOne">
                 <div class="card-body">
                     <div class="form-row">
-                        {% with attribute_list=raw.1.fields full_width=False parent_id=False id=False %}
+                        {% with attribute_list=raw.1.fields full_width=False parent_id=False obj_id=False parent_label="" %}
                         {% include "app/common_render.html" %}
                         {% endwith %}
                     </div>

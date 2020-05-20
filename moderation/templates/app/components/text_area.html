@@ -1,7 +1,8 @@
 {% load general_tags %}
-
+{% for obj_id in context_field_value %}
+{% get_field_label field_description attribute 'label' parent_label obj_id as field_label %}
 <div class="form-group col-md-3">
-    <label for="{% get_field_id attribute parent_id obj_id %}" class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}</label>
+    <label for="{% get_field_id attribute parent_id obj_id %}" class="col-sm-12 col-form-label">{{ field_label }}</label>
      <div class="col-sm-12">
         <textarea class="form-control col-sm-11" id="{% get_field_id attribute parent_id obj_id %}" rows="3" spellcheck="true" name="{% get_field_name attribute parent_id obj_id %}"
               placeholder="None"
@@ -14,7 +15,8 @@
 {% endif %}
 
 {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
-    {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id %}
+    {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id parent_label=field_label %}
         {% include "app/common_render.html" %}
     {% endwith %}
 {% endif %}
+{% endfor %}

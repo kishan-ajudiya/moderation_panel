@@ -1,6 +1,7 @@
 {% load general_tags %}
 <div class="card-deck col-md-11">
 {% for obj_id in context_field_value %}
+    {% get_field_label field_description attribute 'label' parent_label obj_id as field_label %}
 <div class="form-group col-md-6">
     <div class="card border-secondary">
         <div class="embed-responsive embed-responsive-16by9">
@@ -9,15 +10,15 @@
             </video>
         </div>
         <div class="card-body">
-<!--            <h5 class="card-title">Caption</h5>-->
-<!--            <p class="card-text text-secondary">{{ field_value|hash:'caption'|hash:'new_value' }}</p>-->
+            <h5 class="card-title"></h5>
+            <p class="card-text text-secondary">{{ field_label }}</p>
             {% if field_description|hash:attribute|hash:'moderable' %}
                 {% with full_width=True %}
                     {% include "app/components/moderation_select.html" %}
                 {% endwith %}
             {% endif %}
             {% if field_description|hash:attribute|hash:'child_attr' is not None  %}
-                {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id full_width=True %}
+                {% with attribute_list=field_description|hash:attribute|hash:'child_attr' parent_id=obj_id full_width=True parent_label=field_label %}
                     {% include "app/common_render.html" %}
                 {% endwith %}
             {% endif %}
