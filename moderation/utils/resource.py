@@ -157,7 +157,7 @@ def get_list_view_context(entity_id, pending_page, moderated_page, user, filter_
     return status, resp
 
 
-def get_detail_entity_view_data(unique_id):
+def get_detail_entity_view_data(unique_id, re_moderate):
     resp = {}
     status = False
     try:
@@ -173,7 +173,7 @@ def get_detail_entity_view_data(unique_id):
         data_packet_data = DataStoreSerializer(data_packet).data
         packet_dict = {
             "id": data_packet_data.get('id', ''),
-            "is_moderation_done": data_packet_data.get('is_moderation_done', False),
+            "is_moderation_done": data_packet_data.get('is_moderation_done', False) if not re_moderate else False,
             "unique_id": data_packet_data.get('unique_id', ''),
             "user_assigned": data_packet_data.get('user_assigned', ''),
             "entity_object_id": data_packet_data.get('entity_object_id', ''),
@@ -188,6 +188,7 @@ def get_detail_entity_view_data(unique_id):
         }
         packet_dict.update(data_packet_data.get('entity_data', {}).get('input_data', {}))
         resp['field_value'] = packet_dict
+        resp['selected_field_value'] = data_packet_data.get('entity_data', {}).get('moderated_data', {})
         status = True
     except Exception as e:
         msg = "Error While Fetching entity data."

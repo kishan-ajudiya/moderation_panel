@@ -52,7 +52,7 @@
         {% if active_entity.is_remoderable %}
         <td class="text-center table-data-layout">
             <button class="btn btn-sm btn-outline-info">
-                <a class="text-info" href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}">
+                <a class="text-info" href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}&re_moderate=true">
                     Re-Moderate
                 </a>
             </button>

@@ -44,13 +44,13 @@ $(document).ready(function () {
         }
         else{
             $('#reject_reason_div').hide();
+            $("#reject_reason").val([]);
         }
     }
 
     function toggle_field_reject_reason(obj) {
         var selected_action = $(obj).val();
         var field_id = $(obj).attr("id").split('moderable_')[1];
-        console.log('#reject_reason_div' + field_id);
         if(selected_action === 'reject'){
             $('#reject_reason_div_' + field_id).show();
             $('#reject_reason_' + field_id).prop('required',true);
@@ -58,6 +58,7 @@ $(document).ready(function () {
         else{
             $('#reject_reason_div_' + field_id).hide();
             $('#reject_reason_' + field_id).prop('required',false);
+            $('#reject_reason_' + field_id).val([]);
         }
     }
 

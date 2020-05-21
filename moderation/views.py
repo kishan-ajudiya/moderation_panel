@@ -87,7 +87,8 @@ class DetailView(APIView):
 
     def get(self, request):
         unique_id = request.GET.get('unique_id', '')
-        stat, detail_view_data = get_detail_entity_view_data(unique_id)
+        re_moderate = request.GET.get('re_moderate', False)
+        stat, detail_view_data = get_detail_entity_view_data(unique_id, re_moderate)
         return Response(detail_view_data)
 
 
