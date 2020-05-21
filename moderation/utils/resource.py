@@ -5,6 +5,8 @@ import datetime
 from django.core.paginator import Paginator
 
 from moderation.models import ModerationConfig, DataStore
+from moderation.parsers.input_parser import parse_dict
+from moderation.parsers.output_parser import parse_moderated_data
 from moderation.produce_data import product_data_to_kafka
 from moderation.serializers.data_store import DataStoreSerializer
 from moderation.serializers.moderation_config import ModerationConfigSerializer
@@ -102,6 +104,7 @@ def get_entity_table_data(active_entity_id, filter_params=None):
                 "unique_id": packet.get('unique_id', ''),
                 "entity_object_id": packet.get('entity_object_id', ''),
                 "user_assigned": packet.get('user_assigned', ''),
+                "moderation_status": packet.get('moderation_status', ''),
                 "current_status": {
                     "new_value": packet.get('current_status', '')
                 },
@@ -227,9 +230,13 @@ def save_moderated_data(data, user):
         if not unique_id:
             return False, "Packet id is not present."
         data_packet = DataStore.objects.get(unique_id=unique_id)
+        entity_config = data_packet.entity.fetch()
+        entity_config_data = ModerationConfigSerializer(entity_config).data
+        field_description = make_attribute_config(entity_config_data.get("attribute_config", []))
         data_packet_data = DataStoreSerializer(data_packet).data
         if data_packet_data.get('user_assigned', '') and data_packet_data.get('user_assigned', '') != user.username:
             return False, "Data Packet is not assigned to you."
+        moderated_data = parse_moderated_data(data.get('data', {}), field_description)
         output_data_packet = {
             "entity_id": data_packet.entity.id,
             "unique_id": data_packet_data.get("unique_id", None),
@@ -239,11 +246,13 @@ def save_moderated_data(data, user):
             "moderated_by": user.username,
             "moderated_by_id": user.id,
             "reject_reason": data.get("reject_reason", []),
+            "fields": moderated_data
         }
         data_packet.is_moderation_done = True
         data_packet.user_assigned = output_data_packet.get("moderated_by", None)
         data_packet.moderation_status = output_data_packet.get("moderation_status", None)
         data_packet.reject_reason = output_data_packet.get("reject_reason", [])
+        data_packet.entity_data.moderated_data = parse_dict(moderated_data)
         data_packet.moderated_time = datetime.datetime.now()
         data_packet.save()
         product_data_to_kafka(str(data_packet_data.get("unique_id")), output_data_packet)

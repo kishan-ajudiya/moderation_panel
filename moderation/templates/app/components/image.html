@@ -1,6 +1,9 @@
 {% load general_tags %}
 <div class="card-deck mx-2">
     {% for obj_id in context_field_value %}
+        {% if parent_id %}
+            <input type="hidden" name="{% get_parent_field_name attribute parent_id obj_id %}" value="{{parent_id}}">
+        {% endif %}
             {% get_field_label field_description attribute 'label' parent_label obj_id as field_label %}
             <div class="card border-secondary" style="width: 18rem;">
                 <img data-enlargable style="cursor: zoom-in; height: 230px; width: 100%; display: block;" data-holder-rendered="true" src="{% get_field_value field_value attribute 'new_value' parent_id obj_id %}" class="card-img-top" alt="" name="{{attribute}}.{{i}}.url">

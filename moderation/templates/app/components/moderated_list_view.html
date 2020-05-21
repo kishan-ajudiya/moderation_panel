@@ -12,6 +12,7 @@
 <!--            <i class="fa fa-fw fa-sort"></i>-->
         </th>
         {% endfor %}
+        <th class="text-center table-data-layout" scope="col">Status</th>
         <th class="text-center table-data-layout" scope="col">Details</th>
         <th class="text-center table-data-layout" scope="col">Moderated By</th>
         {% if active_entity.is_remoderable %} <th class="text-center table-data-layout" scope="col">Change Your Mind?</th> {% endif %}
@@ -37,6 +38,7 @@
             {% endif %}
         </td>
         {% endfor %}
+        <td class="text-center table-data-layout">{{ row_data|hash:'moderation_status' }}</td>
         <td class="text-center table-data-layout">
             <button class="btn btn-outline-success">
                 <a href="/moderation/detail?unique_id={{ row_data|hash:'unique_id' }}">

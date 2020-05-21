@@ -1,6 +1,9 @@
 {% load general_tags %}
 {% for obj_id in context_field_value %}
     {% get_field_label field_description attribute 'label' parent_label obj_id as field_label %}
+        {% if parent_id %}
+            <input type="hidden" name="{% get_parent_field_name attribute parent_id obj_id %}" value="{{parent_id}}">
+        {% endif %}
 <div class="form-group {% if not full_width %} col-md-3 {% endif %}">
     <label for="{% get_field_id attribute parent_id obj_id %}"
            class="col-sm-12 col-form-label">{{ field_label }}</label>

@@ -5,7 +5,9 @@
         <select class="custom-select form-control"
                 id="moderable_{% get_field_id attribute parent_id obj_id %}"
                 name="{% get_moderable_field_name attribute parent_id obj_id %}"
-                {% if field_value.is_moderation_done %} disabled {% endif %} required>
+                {% if field_value.is_moderation_done %} disabled {% endif %} required
+                onchange="toggle_field_reject_reason(this);"
+        >
             <option selected value="">None</option>
             <option value="approve" {% if field_value.moderation_status == 'approve' %} selected {% endif %} >
                 Accept
@@ -13,6 +15,24 @@
             <option value="reject" {% if field_value.moderation_status == 'reject' %} selected {% endif %}>
                 Reject
             </option>
+        </select>
+    </div>
+</div>
+
+
+<div class="form-group {% if not full_width %} col-md-3  {% endif %}" id="reject_reason_div_{% get_field_id attribute parent_id obj_id %}" style="display: none">
+    <label for="reject_reason_{% get_field_id attribute parent_id obj_id %}" class="col-sm-12 col-form-label">{{ field_description|hash:attribute|hash:'label' }}  Reject reason</label>
+    <div class="col-sm-11">
+        <select class="custom-select form-control"
+                id="reject_reason_{% get_field_id attribute parent_id obj_id %}"
+                name="{% get_reject_reason_field_name attribute parent_id obj_id %}"
+                {% if field_value.is_moderation_done %} disabled {% endif %} multiple>
+            <option value="">Select Reject Reason</option>
+            {% for reason in field_description|hash:attribute|hash:'reject_reason' %}
+                <option style="white-space: pre-line;" value={{reason}} {% if reason in field_value.selected_reject_reason %} selected {% endif %}>
+                    {{reason}}
+                </option>
+            {% endfor %}
         </select>
     </div>
 </div>

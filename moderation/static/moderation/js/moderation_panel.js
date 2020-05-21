@@ -47,6 +47,20 @@ $(document).ready(function () {
         }
     }
 
+    function toggle_field_reject_reason(obj) {
+        var selected_action = $(obj).val();
+        var field_id = $(obj).attr("id").split('moderable_')[1];
+        console.log('#reject_reason_div' + field_id);
+        if(selected_action === 'reject'){
+            $('#reject_reason_div_' + field_id).show();
+            $('#reject_reason_' + field_id).prop('required',true);
+        }
+        else{
+            $('#reject_reason_div_' + field_id).hide();
+            $('#reject_reason_' + field_id).prop('required',false);
+        }
+    }
+
     function user_assign(obj) {
         var unique_id = $(obj).data("unique_id");
         var user_assigned = 0;

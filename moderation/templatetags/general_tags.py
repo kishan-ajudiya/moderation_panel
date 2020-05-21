@@ -19,15 +19,6 @@ def get_field_value(data_dict, attribute, key, parent_id=None, obj_id=None):
 
 
 @register.simple_tag
-def get_field_name(attribute, parent_id=None, obj_id=None):
-    field_name = str(attribute) + "."
-    field_name += (str(parent_id) + ".") if parent_id else ''
-    field_name += (str(obj_id) + ".") if obj_id else ''
-    field_name += "value"
-    return field_name
-
-
-@register.simple_tag
 def get_field_id(attribute, parent_id=None, obj_id=None):
     field_name = str(attribute) + "_"
     field_name += (str(parent_id) + "_") if parent_id else ''
@@ -37,11 +28,38 @@ def get_field_id(attribute, parent_id=None, obj_id=None):
 
 
 @register.simple_tag
+def get_field_name(attribute, parent_id=None, obj_id=None):
+    field_name = "data." + str(attribute) + "."
+    # field_name += (str(parent_id) + ".") if parent_id else ''
+    field_name += (str(obj_id) + ".") if obj_id else ''
+    field_name += "value"
+    return field_name
+
+
+@register.simple_tag
 def get_moderable_field_name(attribute, parent_id=None, obj_id=None):
-    field_name = str(attribute) + "."
-    field_name += (str(parent_id) + ".") if parent_id else ''
+    field_name = "data." + str(attribute) + "."
+    # field_name += (str(parent_id) + ".") if parent_id else ''
     field_name += (str(obj_id) + ".") if obj_id else ''
     field_name += "moderable"
+    return field_name
+
+
+@register.simple_tag
+def get_reject_reason_field_name(attribute, parent_id=None, obj_id=None):
+    field_name = "data." + str(attribute) + "."
+    # field_name += (str(parent_id) + ".") if parent_id else ''
+    field_name += (str(obj_id) + ".") if obj_id else ''
+    field_name += "reject_reason"
+    return field_name
+
+
+@register.simple_tag
+def get_parent_field_name(attribute, parent_id=None, obj_id=None):
+    field_name = "data." + str(attribute) + "."
+    # field_name += (str(parent_id) + ".") if parent_id else ''
+    field_name += (str(obj_id) + ".") if obj_id else ''
+    field_name += "parent_id"
     return field_name
 
 
