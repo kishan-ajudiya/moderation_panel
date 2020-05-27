@@ -1,5 +1,5 @@
 {% load general_tags %}
-<div class="card-deck col-md-11">
+<div class="card-deck col-md-11 flex-nowrap">
     {% for obj_id in context_field_value %}
         {% get_field_label field_description attribute 'label' parent_label obj_id as field_label %}
         {% if parent_id %}

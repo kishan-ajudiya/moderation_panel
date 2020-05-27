@@ -1,5 +1,5 @@
 {% load general_tags %}
-<div class="card-deck mx-2">
+<div class="card-deck flex-nowrap">
     {% for obj_id in context_field_value %}
         {% if parent_id %}
             <input type="hidden" name="{% get_parent_field_name attribute parent_id obj_id %}" value="{{parent_id}}">
