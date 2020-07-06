@@ -11,9 +11,15 @@
         <input type="text" class="form-control"
                id="{% get_field_id attribute parent_id obj_id %}"
                name="{% get_field_name attribute parent_id obj_id %}"
+               {% get_field_value selected_field_value attribute 'edited_data' parent_id obj_id as edited_data %}
+               {% if edited_data %}
+                value="{% get_field_value selected_field_value attribute 'edited_data' parent_id obj_id %}"
+               {% else %}
                value="{% get_field_value field_value attribute 'new_value' parent_id obj_id %}"
-               {% if not field_description|hash:attribute|hash:'editable' %} readonly {% endif %}
-                {% if field_description|hash:attribute|hash:'editable' %} data-role="tagsinput" {% endif %}
+               {% endif %}
+               {% if not field_description|hash:attribute|hash:'editable' or field_value.is_moderation_done %} readonly {% endif %}
+
+                {% if field_description|hash:attribute|hash:'editable' and not field_value.is_moderation_done %} data-role="tagsinput" {% endif %}
                >
     </div>
 </div>

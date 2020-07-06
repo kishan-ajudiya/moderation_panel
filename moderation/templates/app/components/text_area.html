@@ -9,7 +9,7 @@
      <div class="col-sm-12">
         <textarea class="form-control col-sm-11" id="{% get_field_id attribute parent_id obj_id %}" rows="3" spellcheck="true" name="{% get_field_name attribute parent_id obj_id %}"
               placeholder="None"
-              {% if not field_description|hash:attribute|hash:'editable' %} readonly {% endif %}>{% get_field_value field_value attribute 'new_value' parent_id obj_id %}</textarea>
+              {% if not field_description|hash:attribute|hash:'editable' or field_value.is_moderation_done %} readonly {% endif %}>{% get_field_value field_value attribute 'new_value' parent_id obj_id %}</textarea>
      </div>
 </div>
 
