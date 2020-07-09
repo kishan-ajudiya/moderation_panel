@@ -81,3 +81,29 @@ def get_field_label(field_description, attribute, label, parent_label=None, obj_
     if parent_label:
         field_label = field_label + " for " + str(parent_label)
     return field_label
+
+
+@register.simple_tag
+def get_field_choices(field_description, attribute):
+    field_attr = field_description.get(attribute, {})
+    return field_attr.get('choices', {})
+
+
+@register.simple_tag
+def get_field_selected_value(field_value, selected_field_value, attribute):
+    field_attr_value = field_value.get(attribute, {}).get('new_value', [])
+    selected_field_attr_value = selected_field_value.get(attribute, {}).get('edited_data', [])
+    field_attr_value_list = convert_str_to_list(field_attr_value)
+    selected_field_attr_value_list = convert_str_to_list(selected_field_attr_value)
+    return list(set(field_attr_value_list + selected_field_attr_value_list))
+
+
+def convert_str_to_list(data):
+    if isinstance(data, str):
+        try:
+            data = data.split(',')
+        except:
+            data = []
+    elif isinstance(data, list):
+        data = data
+    return data

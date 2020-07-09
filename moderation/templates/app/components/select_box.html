@@ -4,15 +4,21 @@
         {% if parent_id %}
             <input type="hidden" name="{% get_parent_field_name attribute parent_id obj_id %}" value="{{parent_id}}">
         {% endif %}
-<div class="form-group {% if not full_width %} col-md-3 {% endif %}">
-    <label for="{% get_field_id attribute parent_id obj_id %}" class="col-sm-12 col-form-label">{{ field_label }}</label>
-    <select class="custom-select" id="{% get_field_id attribute parent_id obj_id %}" name="{% get_field_name attribute parent_id obj_id %}">
-        <option selected="">Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-</div>
+        <div class="form-group {% if not full_width %} col-md-3 {% endif %}">
+        <label for="{% get_field_id attribute parent_id obj_id %}" class="col-sm-12 col-form-label">{{ field_label }}</label>
+        {% get_field_choices field_description attribute as field_choices %}
+        {% get_field_selected_value field_value selected_field_value attribute as selected_list%}
+        <select
+                class="custom-select"
+                id="{% get_field_id attribute parent_id obj_id %}"
+                name="{% get_field_name attribute parent_id obj_id %}"
+                {% if not field_description|hash:attribute|hash:'editable' or field_value.is_moderation_done %} disabled {% endif %}
+        >
+            {% for key, values in field_choices.items %}
+            <option value={{ key }} {% if key in selected_list %} selected {% endif %}>{{ values }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
 
 {% if field_description|hash:attribute|hash:'moderable' %}

@@ -34,6 +34,7 @@ class AttributeConfig(EmbeddedDocument):
     object_type = StringField()
     multiple = BooleanField(default=False)
     child_attr = ListField(StringField())
+    choices = DictField()
 
 
 class ModerationConfig(MongoDocument):
