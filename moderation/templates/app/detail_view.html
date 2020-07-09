@@ -2,7 +2,7 @@
 {% load general_tags %}
 {% block main %}
 {{ block.super }}
-<ol class="breadcrumb">
+<ol class="breadcrumb mb-0" style="background-color: #ffffff;">
     <li class="breadcrumb-item"><a href="/moderation/list" data-ol-has-click-handler="">Home</a></li>
     <li class="breadcrumb-item"><a id="entity_breadcrumb" href="/moderation/list?entity_id={{ entity_id }}"
                                    data-ol-has-click-handler="">{{ entity_name }}</a></li>
@@ -14,7 +14,7 @@
     <div class="accordion" id="accordionExample">
         {% for raw in detail_view %}
         <div class="card">
-            <div class="card-header" id="headingOne">
+            <div class="card-header px-2 py-1" id="headingOne">
                 <div class="row">
                     <div class="col-md-5 align-content-end">
                         <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
@@ -24,9 +24,11 @@
                         </button>
                     </div>
                     {% if raw.1.help_text %}
-                    <div class="col-md-7 mb-0 text-right">
-                        <label>Help Text :</label>
-                        <small id="emailHelp" class="text-muted">{{raw.1.help_text}}</small>
+                    <div class="col-md-7 text-right py-1">
+                        <button type="button"
+                                name="help-text-tooltip-button"
+                                class="btn btn-outline-info btn-sm" title="" data-toggle="tooltip" data-placement="right"
+                                data-original-title="{{raw.1.help_text}}" data-ol-has-click-handler="">Help Text</button>
                     </div>
                     {% endif %}
                 </div>

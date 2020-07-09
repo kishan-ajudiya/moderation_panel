@@ -158,3 +158,8 @@ $(document).ready(function () {
         }
 
     });
+
+// it binds help text button to tooltip
+$('[name="help-text-tooltip-button"]').tooltip();
+// it binds two sided multi select widget
+$('#multiselect').multiselect();
